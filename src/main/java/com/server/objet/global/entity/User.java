@@ -1,7 +1,41 @@
 package com.server.objet.global.entity;
 
-public class User {
-    /*
-    * 엔티티들이 모여있는 패키지입니다. 아직 디펜던시에 JPA는 추가해두지 않은 상태입니다.
-    * */
+import com.server.objet.global.enums.Role;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import nonapi.io.github.classgraph.json.Id;
+
+
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class User{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private Role role;
+    //USER(=Non Artist), ADMIN, ARTIST로 정의
+
+    @Column(nullable = false)
+    private String providerId;
+
+    @Column(nullable = false)
+    private String accessToken;
+
+    @Column(nullable = false)
+    private String refreshToken;
 }
