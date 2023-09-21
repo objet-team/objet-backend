@@ -11,7 +11,7 @@
 
 ## 🛠 Tech Stacks
 <table>
-	<tr><td>Language</td><td>Java 11</td></tr>
+	<tr><td>Language</td><td>Java 17</td></tr>
 	<tr><td>Framework</td><td>Spring Boot, Gradle</td></tr>
 	<tr><td>ORM</td><td>Spring Data JPA</td></tr>
 	<tr><td>Authorization</td><td>Spring Security, OAuth 2.0, JWT</td></tr>
