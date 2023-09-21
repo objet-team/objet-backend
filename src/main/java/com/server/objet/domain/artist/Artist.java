@@ -1,5 +1,6 @@
-package com.server.objet.global.entity;
+package com.server.objet.domain.artist;
 
+import com.server.objet.global.entity.User;
 import com.server.objet.global.enums.Category;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
