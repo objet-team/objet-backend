@@ -2,14 +2,13 @@
 
 
 
-## 👩‍💻Server Engineers
+## 👩‍💻 Server Engineers
 | 국혜경 | 유진 |
 |:--------:|:-------:| 
 | [k0000k](https://github.com/k0000k) | [HI-JIN2](https://github.com/HI-JIN2)  |
 
-<br>
 
-## 🛠Tech Stacks
+## 🛠 Tech Stacks
 <table>
 	<tr><td>Language</td><td>Java 11</td></tr>
 	<tr><td>Framework</td><td>Spring Boot, Gradle</td></tr>
@@ -18,6 +17,6 @@
 	<tr><td>API Documentation</td><td>Swagger</td></tr>
 	<tr><td>Database</td><td>PostgreSQL</td></tr>
 	<tr><td>Login Open API</td><td>Kakao</td></tr>
-	<tr><th>AWS Cloud Service</th><td colspan="2">EC2, S3, CodeDeploy, RDS</td></tr>
+	<tr><td>AWS Cloud Service</td><td colspan="2">EC2, S3, CodeDeploy, RDS</td></tr>
 </table>
 
