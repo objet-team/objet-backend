@@ -5,13 +5,14 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import nonapi.io.github.classgraph.json.Id;
 
 
 @Entity
 @Getter
+@Table(name = "user_table")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
