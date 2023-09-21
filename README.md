@@ -3,9 +3,10 @@
 
 
 ## 👩‍💻 Server Engineers
-| 국혜경 | 유진 |
+| 유진 | 국혜경 |
 |:--------:|:-------:| 
-| [k0000k](https://github.com/k0000k) | [HI-JIN2](https://github.com/HI-JIN2)  |
+|<img width="250" src="https://github.com/objet-team/objet-backend/assets/94737714/d97e301b-982f-40af-ad56-c97d7d8c29ea">| <img width="250" src = "https://github.com/objet-team/objet-backend/assets/94737714/e017a312-72fe-4027-bc11-9a3d049d519d"> |
+| [HI-JIN2](https://github.com/HI-JIN2) | [k0000k](https://github.com/k0000k)  |
 
 
 ## 🛠 Tech Stacks
