@@ -1,4 +1,4 @@
-package com.server.objet.domain.kakao.service.dto.request;
+package com.server.objet.domain.social.service.dto.request;
 
 import lombok.*;
 

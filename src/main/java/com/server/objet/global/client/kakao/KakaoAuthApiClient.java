@@ -1,6 +1,6 @@
 package com.server.objet.global.client.kakao;
 
-import com.server.objet.global.client.kakao.dto.response.KakaoAccessTokenResponse;
+import com.server.objet.global.client.kakao.service.dto.response.KakaoAccessTokenResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;

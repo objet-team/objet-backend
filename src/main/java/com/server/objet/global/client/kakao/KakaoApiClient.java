@@ -1,7 +1,7 @@
 package com.server.objet.global.client.kakao;
 
 
-import com.server.objet.global.client.kakao.dto.response.KakaoUserResponse;
+import com.server.objet.global.client.kakao.service.dto.response.KakaoUserResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;

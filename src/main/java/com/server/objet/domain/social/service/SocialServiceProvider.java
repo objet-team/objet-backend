@@ -1,6 +1,7 @@
-package com.server.objet.domain.kakao.service;
+package com.server.objet.domain.social.service;
 
-import com.server.objet.domain.kakao.enums.SocialPlatform;
+import com.server.objet.domain.social.enums.SocialPlatform;
+import com.server.objet.global.client.kakao.service.KakaoSocialService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

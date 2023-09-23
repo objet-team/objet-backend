@@ -1,7 +1,7 @@
-package com.server.objet.domain.kakao.service.dto.request;
+package com.server.objet.domain.social.service.dto.request;
 
 
-import com.server.objet.domain.kakao.enums.SocialPlatform;
+import com.server.objet.domain.social.enums.SocialPlatform;
 import lombok.*;
 
 @ToString

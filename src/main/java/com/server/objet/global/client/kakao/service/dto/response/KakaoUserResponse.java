@@ -1,4 +1,4 @@
-package com.server.objet.global.client.kakao.dto.response;
+package com.server.objet.global.client.kakao.service.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

@@ -1,4 +1,4 @@
-package com.server.objet.domain.kakao.enums;
+package com.server.objet.domain.social.enums;
 
 import lombok.AccessLevel;
 import lombok.Getter;

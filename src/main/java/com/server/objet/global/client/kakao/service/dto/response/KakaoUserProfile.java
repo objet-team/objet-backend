@@ -1,4 +1,4 @@
-package com.server.objet.global.client.kakao.dto.response;
+package com.server.objet.global.client.kakao.service.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -9,7 +9,8 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class KakaoAccount {
+public class KakaoUserProfile {
 
-    private KakaoUserProfile profile;
+    private String nickname;
+    private String profileImageUrl;
 }

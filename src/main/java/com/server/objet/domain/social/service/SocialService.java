@@ -1,7 +1,7 @@
-package com.server.objet.domain.kakao.service;
+package com.server.objet.domain.social.service;
 
 
-import com.server.objet.domain.kakao.service.dto.request.SocialLoginRequest;
+import com.server.objet.domain.social.service.dto.request.SocialLoginRequest;
 
 public abstract class SocialService {
     public abstract Long login(SocialLoginRequest request);

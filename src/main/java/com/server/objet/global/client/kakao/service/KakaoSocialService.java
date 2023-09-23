@@ -1,13 +1,14 @@
-package com.server.objet.domain.kakao.service;
+package com.server.objet.global.client.kakao.service;
 
+import com.server.objet.domain.social.service.SocialService;
 import com.server.objet.global.client.kakao.KakaoApiClient;
 import com.server.objet.global.client.kakao.KakaoAuthApiClient;
-import com.server.objet.global.client.kakao.dto.response.KakaoAccessTokenResponse;
-import com.server.objet.global.client.kakao.dto.response.KakaoUserResponse;
-import com.server.objet.domain.kakao.entity.SocialUser;
-import com.server.objet.domain.kakao.enums.SocialPlatform;
-import com.server.objet.domain.kakao.repository.SocialUserRepository;
-import com.server.objet.domain.kakao.service.dto.request.SocialLoginRequest;
+import com.server.objet.global.client.kakao.service.dto.response.KakaoAccessTokenResponse;
+import com.server.objet.global.client.kakao.service.dto.response.KakaoUserResponse;
+import com.server.objet.domain.social.entity.SocialUser;
+import com.server.objet.domain.social.enums.SocialPlatform;
+import com.server.objet.domain.social.repository.SocialUserRepository;
+import com.server.objet.domain.social.service.dto.request.SocialLoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

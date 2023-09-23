@@ -1,6 +1,6 @@
-package com.server.objet.domain.kakao.repository;
+package com.server.objet.domain.social.repository;
 
-import com.server.objet.domain.kakao.entity.SocialUser;
+import com.server.objet.domain.social.entity.SocialUser;
 import org.springframework.data.repository.Repository;
 
 public interface SocialUserRepository extends Repository<SocialUser, Long> {

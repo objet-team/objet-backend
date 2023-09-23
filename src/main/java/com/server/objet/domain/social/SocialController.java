@@ -1,10 +1,10 @@
-package com.server.objet.domain.kakao;
+package com.server.objet.domain.social;
 
 
-import com.server.objet.domain.kakao.service.SocialService;
-import com.server.objet.domain.kakao.service.SocialServiceProvider;
-import com.server.objet.domain.kakao.service.dto.request.SocialLoginRequest;
-import com.server.objet.domain.kakao.service.dto.request.SocialLoginRequestDto;
+import com.server.objet.domain.social.service.SocialService;
+import com.server.objet.domain.social.service.SocialServiceProvider;
+import com.server.objet.domain.social.service.dto.request.SocialLoginRequest;
+import com.server.objet.domain.social.service.dto.request.SocialLoginRequestDto;
 import com.server.objet.global.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

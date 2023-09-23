@@ -1,7 +1,7 @@
-package com.server.objet.domain.kakao.entity;
+package com.server.objet.domain.social.entity;
 
 
-import com.server.objet.domain.kakao.enums.SocialPlatform;
+import com.server.objet.domain.social.enums.SocialPlatform;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
