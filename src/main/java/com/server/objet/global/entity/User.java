@@ -4,6 +4,7 @@ import com.server.objet.global.enums.OAuthProvider;
 import com.server.objet.global.enums.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,4 +40,15 @@ public class User{
 
     @Column(nullable = false)
     private String refreshToken;
+
+    @Builder
+    public User(String email, String name, OAuthProvider oAuthProvider, Role role) {
+        this.email = email;
+        this.name = name;
+        this.oAuthProvider = oAuthProvider;
+        this.role = role;
+    }
+
+
+
 }
