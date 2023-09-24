@@ -1,5 +1,6 @@
 package com.server.objet.global.entity;
 
+import com.server.objet.global.enums.OAuthProvider;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class User{
     @Column(nullable = false)
     private String email;
 
-//    private OAuthProvider oAuthProvider;
+    private OAuthProvider oAuthProvider;
 
     @Column(nullable = false)
     private String providerId; //카카오 id에 할당된 고유값
