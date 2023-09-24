@@ -7,8 +7,8 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public class PopularProducts {
+public class MainPageProducts {
 
-    private List<PopularProductInfo> productInfos;
+    private List<MainPageProductInfo> productInfos;
 
 }
