@@ -22,12 +22,12 @@ public class Content {
     private String type;
 
     @Column(name = "content_order")
-    private Integer order;
+    private Integer contentOrder;
 
     @Column(name = "size_type")
     private String sizeType;
 
-    @Column(name = "desc")
+    @Column(name = "description")
     private String description;
 
     @Column(name = "url")
@@ -35,5 +35,11 @@ public class Content {
 
     @Column(name = "align")
     private String align;
+
+    @Column(name = "width")
+    private Long width;
+
+    @Column(name = "height")
+    private Long height;
 
 }

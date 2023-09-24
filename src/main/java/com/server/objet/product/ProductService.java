@@ -33,7 +33,8 @@ public class ProductService {
         for(Like like: productIds) {
             Product product = like.getProduct();
             Artist artist = artistRepository.findById(product.getArtistId()).get();
-            Content content = contentRepository.findByProductIdAndOrder(product.getId(),1).get();
+            Content content = contentRepository
+                    .findTop1ByProductIdAndTypeOrderByContentOrderAsc(product.getId(), "image").get();
 
             MainPageProductInfo mainPageProductInfo = MainPageProductInfo.builder()
                     .rank(cnt)
@@ -43,7 +44,7 @@ public class ProductService {
                     .like(like.getCount())
                     .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
                     .artistPicPath(artist.getProfilePicUrl())
-                    .thumbNailPath(content.getImgPath())
+                    .thumbNailPath(content.getUrl())
                     .build();
 
 
@@ -67,7 +68,8 @@ public class ProductService {
         for(Product product: products) {
             Like like = likeRepository.findByProduct(product).get();
             Artist artist = artistRepository.findById(product.getArtistId()).get();
-            Content content = contentRepository.findByProductIdAndOrder(product.getId(),1).get();
+            Content content = contentRepository
+                    .findTop1ByProductIdAndTypeOrderByContentOrderAsc(product.getId(), "image").get();
 
             MainPageProductInfo mainPageProductInfo = MainPageProductInfo.builder()
                     .rank(cnt)
@@ -77,7 +79,7 @@ public class ProductService {
                     .like(like.getCount())
                     .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
                     .artistPicPath(artist.getProfilePicUrl())
-                    .thumbNailPath(content.getImgPath())
+                    .thumbNailPath(content.getUrl())
                     .build();
 
 
