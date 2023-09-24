@@ -8,9 +8,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("sign")
 public class SignController {
 
-    @GetMapping("/test")
-    public String tester() {
-        return "Success";
-    }
-
 }

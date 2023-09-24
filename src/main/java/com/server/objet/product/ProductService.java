@@ -4,10 +4,7 @@ import com.server.objet.global.entity.Artist;
 import com.server.objet.global.entity.Image;
 import com.server.objet.global.entity.Like;
 import com.server.objet.global.entity.Product;
-import com.server.objet.global.repository.ImageRepository;
-import com.server.objet.global.repository.LikeRepository;
-import com.server.objet.global.repository.ProductRepository;
-import com.server.objet.global.repository.ArtistRepository;
+import com.server.objet.global.repository.*;
 
 import com.server.objet.product.dto.*;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +21,12 @@ public class ProductService {
     private final ArtistRepository artistRepository;
     private final ImageRepository imageRepository;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
-    public PopularProducts getPopularProducts() {
+    public MainPageProducts getPopularProducts() {
         // ToDo: optional 처리하기
 
-        List<PopularProductInfo> popularProductInfos = new ArrayList<>();
+        List<MainPageProductInfo> mainPageProductInfos = new ArrayList<>();
         List<Like> productIds = likeRepository.findTop20ByOrderByCountDesc();
 
         Integer cnt = 1;
@@ -37,25 +35,61 @@ public class ProductService {
             Artist artist = artistRepository.findById(product.getArtistId()).get();
             Image image = imageRepository.findByProductIdAndOrder(product.getId(),1).get();
 
-            PopularProductInfo popularProductInfo = PopularProductInfo.builder()
+            MainPageProductInfo mainPageProductInfo = MainPageProductInfo.builder()
                     .rank(cnt)
                     .productId(product.getId())
                     .title(product.getTitle())
+                    .category(product.getCategory())
                     .like(like.getCount())
-                    .artistName(artist.getUser().getName())
+                    .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
                     .artistPicPath(artist.getProfilePicUrl())
                     .thumbNailPath(image.getImgPath())
                     .build();
 
 
-            popularProductInfos.add(popularProductInfo);
+            mainPageProductInfos.add(mainPageProductInfo);
             cnt++;
 
         }
 
-        PopularProducts popularProducts = new PopularProducts(popularProductInfos);
+        MainPageProducts mainPageProducts = new MainPageProducts(mainPageProductInfos);
 
-        return popularProducts;
+        return mainPageProducts;
+    }
+
+    public MainPageProducts getNewProducts() {
+        // ToDo: optional 처리하기
+
+        List<MainPageProductInfo> mainPageProductInfos = new ArrayList<>();
+        List<Product> products = productRepository.findTop12ByOrderByUploadAtDesc();
+
+        Integer cnt = 1;
+        for(Product product: products) {
+            Like like = likeRepository.findByProduct(product).get();
+            Artist artist = artistRepository.findById(product.getArtistId()).get();
+            Image image = imageRepository.findByProductIdAndOrder(product.getId(),1).get();
+
+            MainPageProductInfo mainPageProductInfo = MainPageProductInfo.builder()
+                    .rank(cnt)
+                    .productId(product.getId())
+                    .title(product.getTitle())
+                    .category(product.getCategory())
+                    .like(like.getCount())
+                    .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
+                    .artistPicPath(artist.getProfilePicUrl())
+                    .thumbNailPath(image.getImgPath())
+                    .build();
+
+
+            mainPageProductInfos.add(mainPageProductInfo);
+            cnt++;
+
+        }
+
+        MainPageProducts mainPageProducts = new MainPageProducts(mainPageProductInfos);
+
+        return mainPageProducts;
+
     }
 
     public ProductDetail getProductDetail(Long id) {
@@ -69,6 +103,7 @@ public class ProductService {
         ProductDetail productDetail = ProductDetail.builder()
                 .productId(id)
                 .title(product.getTitle())
+                .category(product.getCategory())
                 .detail(product.getDesc())
                 .like(like.getCount())
                 .artistName(artist.getUser().getName())
