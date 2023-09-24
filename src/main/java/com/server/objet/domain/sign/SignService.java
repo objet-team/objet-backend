@@ -1,4 +1,4 @@
-package com.server.objet.sign;
+package com.server.objet.domain.sign;
 
 import org.springframework.stereotype.Service;
 

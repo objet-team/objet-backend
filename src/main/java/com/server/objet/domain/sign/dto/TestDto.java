@@ -1,4 +1,4 @@
-package com.server.objet.sign.dto;
+package com.server.objet.domain.sign.dto;
 
 public class TestDto {
     /*

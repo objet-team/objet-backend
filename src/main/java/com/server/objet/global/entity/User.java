@@ -1,5 +1,6 @@
 package com.server.objet.global.entity;
 
+import com.server.objet.global.enums.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,20 +24,16 @@ public class User{
     @Column(nullable = false)
     private String email;
 
-//    private OAuthProvider oAuthProvider;
-
     @Column(nullable = false)
     private String providerId; //카카오 id에 할당된 고유값
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private Role role;
-    //USER(=Non Artist), ADMIN, ARTIST로 정의
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role; //USER(=Non Artist), ADMIN, ARTIST로 정의
 
     @Column(nullable = false)
     private String accessToken;
 
     @Column(nullable = false)
     private String refreshToken;
-
 }
