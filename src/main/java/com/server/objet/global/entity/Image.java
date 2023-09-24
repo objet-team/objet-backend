@@ -18,7 +18,7 @@ public class Image {
     @Column(name = "p_id")
     private Long productId;
 
-    @Column(name = "order")
+    @Column(name = "img_order")
     private Integer order;
 
     @Column(name = "img_path")
