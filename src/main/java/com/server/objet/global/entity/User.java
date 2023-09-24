@@ -29,8 +29,7 @@ public class User{
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
-    //USER(=Non Artist), ADMIN, ARTIST로 정의
+    private Role role; //USER(=Non Artist), ADMIN, ARTIST로 정의
 
     @Column(nullable = false)
     private String accessToken;

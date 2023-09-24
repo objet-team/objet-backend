@@ -1,12 +1,12 @@
-package com.server.objet.domain.artist;
+package com.server.objet.global.entity;
 
 import com.server.objet.global.entity.User;
-import com.server.objet.global.enums.Category;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Collection;
 
 @Entity
 @Getter
@@ -20,21 +20,15 @@ public class Artist {
 
     private String comment;
 
-    private Category category;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Builder
-    public Artist(String comment, Category category, User user) {
-        this.comment = comment;
-        this.category = category;
-        this.user = user;
-    }
+    @OneToMany
+    @JoinColumn(name = "a_idx")
+    private Collection<Product> products;
 
-    public void update(String comment, Category category) {
-        this.comment = comment;
-        this.category = category;
-    }
+    @Column(name = "pic_url")
+    private String profilePicUrl;
+
 }
