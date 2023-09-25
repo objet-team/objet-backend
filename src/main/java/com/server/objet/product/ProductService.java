@@ -1,7 +1,7 @@
 package com.server.objet.product;
 
 import com.server.objet.global.entity.Artist;
-import com.server.objet.global.entity.Image;
+import com.server.objet.global.entity.Content;
 import com.server.objet.global.entity.Like;
 import com.server.objet.global.entity.Product;
 import com.server.objet.global.repository.*;
@@ -19,7 +19,7 @@ public class ProductService {
 
     private final LikeRepository likeRepository;
     private final ArtistRepository artistRepository;
-    private final ImageRepository imageRepository;
+    private final ContentRepository contentRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
@@ -33,7 +33,8 @@ public class ProductService {
         for(Like like: productIds) {
             Product product = like.getProduct();
             Artist artist = artistRepository.findById(product.getArtistId()).get();
-            Image image = imageRepository.findByProductIdAndOrder(product.getId(),1).get();
+            Content content = contentRepository
+                    .findTop1ByProductIdAndTypeOrderByContentOrderAsc(product.getId(), "image").get();
 
             MainPageProductInfo mainPageProductInfo = MainPageProductInfo.builder()
                     .rank(cnt)
@@ -43,7 +44,7 @@ public class ProductService {
                     .like(like.getCount())
                     .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
                     .artistPicPath(artist.getProfilePicUrl())
-                    .thumbNailPath(image.getImgPath())
+                    .thumbNailPath(content.getUrl())
                     .build();
 
 
@@ -67,7 +68,8 @@ public class ProductService {
         for(Product product: products) {
             Like like = likeRepository.findByProduct(product).get();
             Artist artist = artistRepository.findById(product.getArtistId()).get();
-            Image image = imageRepository.findByProductIdAndOrder(product.getId(),1).get();
+            Content content = contentRepository
+                    .findTop1ByProductIdAndTypeOrderByContentOrderAsc(product.getId(), "image").get();
 
             MainPageProductInfo mainPageProductInfo = MainPageProductInfo.builder()
                     .rank(cnt)
@@ -77,7 +79,7 @@ public class ProductService {
                     .like(like.getCount())
                     .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
                     .artistPicPath(artist.getProfilePicUrl())
-                    .thumbNailPath(image.getImgPath())
+                    .thumbNailPath(content.getUrl())
                     .build();
 
 
@@ -98,7 +100,7 @@ public class ProductService {
         Product product = productRepository.findById(id).get();
         Like like = likeRepository.findByProduct(product).get();
         Artist artist = artistRepository.findById(product.getArtistId()).get();
-        List<Image> images = product.getImages();
+        List<Content> contents = product.getContents();
 
         ProductDetail productDetail = ProductDetail.builder()
                 .productId(id)
@@ -109,7 +111,7 @@ public class ProductService {
                 .artistName(artist.getUser().getName())
                 .artistInfo(artist.getComment())
                 .artistPicPath(artist.getProfilePicUrl())
-                .images(images)
+                .contents(contents)
                 .build();
 
         return productDetail;
