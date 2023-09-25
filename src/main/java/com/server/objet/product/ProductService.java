@@ -7,6 +7,7 @@ import com.server.objet.global.entity.Product;
 import com.server.objet.global.repository.*;
 
 import com.server.objet.product.dto.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -94,6 +95,7 @@ public class ProductService {
 
     }
 
+    @Transactional
     public ProductDetail getProductDetail(Long id) {
         // ToDo: optional 처리하기
 
@@ -101,6 +103,8 @@ public class ProductService {
         Like like = likeRepository.findByProduct(product).get();
         Artist artist = artistRepository.findById(product.getArtistId()).get();
         List<Content> contents = product.getContents();
+
+        List<Content> resultContents = makeContentsList(contents);
 
         ProductDetail productDetail = ProductDetail.builder()
                 .productId(id)
@@ -111,10 +115,49 @@ public class ProductService {
                 .artistName(artist.getUser().getName())
                 .artistInfo(artist.getComment())
                 .artistPicPath(artist.getProfilePicUrl())
-                .contents(contents)
+                .contents(resultContents)
                 .build();
 
         return productDetail;
+    }
+
+    @Transactional
+    private List<Content> makeContentsList(List<Content> contents) {
+        List<Content> resultContents = new ArrayList<>();
+        Content currentContent = new Content();
+
+        for(Content content : contents) {
+            String type = content.getType();
+            if (type.equals("image")) {
+                currentContent = Content.builder()
+                        .id(content.getProductId())
+                        .type(content.getType())
+                        .contentOrder(content.getContentOrder())
+                        .url(content.getUrl())
+                        .align(content.getAlign())
+                        .width(content.getWidth())
+                        .height(content.getHeight())
+                        .build();
+            } else if (type.equals("text")) {
+                currentContent = Content.builder()
+                        .id(content.getProductId())
+                        .type(content.getType())
+                        .contentOrder(content.getContentOrder())
+                        .sizeType(content.getSizeType())
+                        .description(content.getDescription())
+                        .align(content.getAlign())
+                        .build();
+            } else if (type.equals("space")) {
+                currentContent = Content.builder()
+                        .id(content.getProductId())
+                        .type(content.getType())
+                        .contentOrder(content.getContentOrder())
+                        .build();
+            }
+
+            resultContents.add(currentContent);
+        }
+        return resultContents;
     }
 
 }
