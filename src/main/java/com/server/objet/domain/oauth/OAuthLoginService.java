@@ -13,12 +13,14 @@ public class OAuthLoginService {
 //    private final AuthTokensGenerator authTokensGenerator;
     private final RequestOAuthInfoService requestOAuthInfoService;
 
-    public String login(OAuthLoginParams params) {
-        OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
-        KakaoTokens kakaoTokens = new KakaoTokens();
-        Long userId = findOrCreateMember(oAuthInfoResponse);
+    public KakaoTokens login(OAuthLoginParams params) {
+
+        KakaoTokens tokens = requestOAuthInfoService.getTokens(params);
+
+//        OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
+//        Long userId = findOrCreateMember(oAuthInfoResponse);
 //        return authTokensGenerator.generate(userId);
-        return oAuthInfoResponse.getNickname();
+        return tokens;
     }
 
 

@@ -49,7 +49,8 @@ public class User {
         this.role = role;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken == null ? "" : accessToken;
-    }
+//    public void setAccessToken(String accessToken) {
+//        this.accessToken = accessToken == null ? "" : accessToken;
+//    }
+
 }

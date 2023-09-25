@@ -38,6 +38,28 @@ public class KakaoApiClient implements OAuthApiClient {
 
     @Override
     public String requestAccessToken(OAuthLoginParams params) {
+//        String url = authUrl + "/oauth/token";
+//
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//
+//        MultiValueMap<String, String> body = params.makeBody();
+//        body.add("grant_type", GRANT_TYPE);
+//        body.add("client_id", clientId);
+//
+//        HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
+//
+//        KakaoTokens response = restTemplate.postForObject(url, request, KakaoTokens.class);
+//
+//        System.out.println("access: "+response.getAccessToken()+"refresh: "+response.getRefreshToken());
+//
+//        assert response != null;
+//        return response.getAccessToken();
+        return "화이팅";
+    }
+
+    @Override
+    public KakaoTokens requestTokens(OAuthLoginParams params) {
         String url = authUrl + "/oauth/token";
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -51,8 +73,10 @@ public class KakaoApiClient implements OAuthApiClient {
 
         KakaoTokens response = restTemplate.postForObject(url, request, KakaoTokens.class);
 
+        System.out.println("access: "+response.getAccessToken()+"refresh: "+response.getRefreshToken());
+
         assert response != null;
-        return response.getAccessToken();
+        return response;
     }
 
     @Override
