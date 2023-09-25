@@ -1,19 +1,23 @@
-package com.server.objet.product.dto;
+package com.server.objet.domain.product.dto;
 
+import com.server.objet.global.entity.Content;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Builder
 @Getter
-public class MainPageProductInfo {
-    private Integer rank;
+public class ProductDetail {
     private Long productId;
     private String title;
     private String category;
+    private String detail;
     private Long like;
     private String artistName;
+    private String artistInfo;
     private String artistPicPath;
-    private String thumbNailPath;
+    private List<Object> contents;
 }
