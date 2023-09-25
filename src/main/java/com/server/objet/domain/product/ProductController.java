@@ -1,7 +1,7 @@
-package com.server.objet.product;
+package com.server.objet.domain.product;
 
-import com.server.objet.product.dto.MainPageProducts;
-import com.server.objet.product.dto.ProductDetail;
+import com.server.objet.domain.product.dto.MainPageProducts;
+import com.server.objet.domain.product.dto.ProductDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

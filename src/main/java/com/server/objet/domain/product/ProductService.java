@@ -1,12 +1,13 @@
-package com.server.objet.product;
+package com.server.objet.domain.product;
 
+import com.server.objet.domain.product.dto.*;
 import com.server.objet.global.entity.Artist;
 import com.server.objet.global.entity.Content;
 import com.server.objet.global.entity.Like;
 import com.server.objet.global.entity.Product;
 import com.server.objet.global.repository.*;
 
-import com.server.objet.product.dto.*;
+import com.server.objet.domain.product.dto.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
