@@ -26,10 +26,9 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    @Enumerated(EnumType.STRING)
     private OAuthProvider oAuthProvider;
 
-    //    @Column(nullable = false)
-    private String providerId; //카카오 id에 할당된 고유값
 
     @Enumerated(EnumType.STRING)
 //    @Column(nullable = false)
@@ -42,15 +41,12 @@ public class User {
     private String refreshToken;
 
     @Builder
-    public User(String email, String name, OAuthProvider oAuthProvider, Role role) {
+    public User(String email, String name, OAuthProvider oAuthProvider, Role role, String accessToken, String refreshToken) {
         this.email = email;
         this.name = name;
         this.oAuthProvider = oAuthProvider;
         this.role = role;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
-
-//    public void setAccessToken(String accessToken) {
-//        this.accessToken = accessToken == null ? "" : accessToken;
-//    }
-
 }
