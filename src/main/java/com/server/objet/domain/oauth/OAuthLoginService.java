@@ -16,10 +16,12 @@ public class OAuthLoginService {
     public KakaoTokens login(OAuthLoginParams params) {
 
         KakaoTokens tokens = requestOAuthInfoService.getTokens(params);
-
-//        OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
-//        Long userId = findOrCreateMember(oAuthInfoResponse);
+        OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(tokens,params);
+        Long userId = findOrCreateMember(oAuthInfoResponse);
 //        return authTokensGenerator.generate(userId);
+        System.out.println(userId);
+        System.out.println(tokens.getAccessToken());
+
         return tokens;
     }
 

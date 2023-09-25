@@ -36,8 +36,7 @@ public class KakaoApiClient implements OAuthApiClient {
         return OAuthProvider.KAKAO;
     }
 
-    @Override
-    public String requestAccessToken(OAuthLoginParams params) {
+//    public String requestAccessToken(OAuthLoginParams params) {
 //        String url = authUrl + "/oauth/token";
 //
 //        HttpHeaders httpHeaders = new HttpHeaders();
@@ -55,8 +54,8 @@ public class KakaoApiClient implements OAuthApiClient {
 //
 //        assert response != null;
 //        return response.getAccessToken();
-        return "화이팅";
-    }
+//        return "화이팅";
+//    }
 
     @Override
     public KakaoTokens requestTokens(OAuthLoginParams params) {

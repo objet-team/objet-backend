@@ -5,7 +5,7 @@ import com.server.objet.global.enums.OAuthProvider;
 
 public interface OAuthApiClient {
     OAuthProvider oAuthProvider();
-    String requestAccessToken(OAuthLoginParams params);
+//    String requestAccessToken(OAuthLoginParams params);
 
     KakaoTokens requestTokens(OAuthLoginParams params);
 

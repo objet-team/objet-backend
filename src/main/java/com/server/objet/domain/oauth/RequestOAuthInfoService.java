@@ -14,18 +14,21 @@ import java.util.stream.Collectors;
 public class RequestOAuthInfoService {
     private final Map<OAuthProvider, OAuthApiClient> clients;
 
+//    private OAuthApiClient client;
+
+
     public RequestOAuthInfoService(List<OAuthApiClient> clients) {
         this.clients = clients.stream().collect(
                 Collectors.toUnmodifiableMap(OAuthApiClient::oAuthProvider, Function.identity())
         );
     }
 
-//    public OAuthInfoResponse request(OAuthLoginParams params) {
-//        OAuthApiClient client = clients.get(params.oAuthProvider());
+    public OAuthInfoResponse request(KakaoTokens tokens,OAuthLoginParams params ) {
+        OAuthApiClient client = clients.get(params.oAuthProvider());
 //        KakaoTokens tokens = client.requestTokens(params);
-////        String accessToken = client.requestAccessToken(params);
-//        return client.requestOauthInfo(tokens.getAccessToken());
-//    }
+//        String accessToken = client.requestTokens(p)t(params);
+        return client.requestOauthInfo(tokens.getAccessToken());
+    }
 
     public KakaoTokens getTokens(OAuthLoginParams params) {
         OAuthApiClient client = clients.get(params.oAuthProvider());
