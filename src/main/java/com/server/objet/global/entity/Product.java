@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 
 
@@ -37,7 +36,7 @@ public class Product {
 
     @OneToMany
     @JoinColumn(name = "p_id")
-    private List<Image> images;
+    private List<Content> contents;
 
     @Column(name = "upload_at")
     private LocalDateTime uploadAt;

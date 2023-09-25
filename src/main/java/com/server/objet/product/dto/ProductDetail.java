@@ -1,6 +1,6 @@
 package com.server.objet.product.dto;
 
-import com.server.objet.global.entity.Image;
+import com.server.objet.global.entity.Content;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,5 +19,5 @@ public class ProductDetail {
     private String artistName;
     private String artistInfo;
     private String artistPicPath;
-    private List<Image> images;
+    private List<Content> contents;
 }
