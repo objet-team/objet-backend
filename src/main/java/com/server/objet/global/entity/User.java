@@ -49,4 +49,9 @@ public class User {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
+
+
+    public void update(Role role){
+        this.role = role;
+    }
 }
