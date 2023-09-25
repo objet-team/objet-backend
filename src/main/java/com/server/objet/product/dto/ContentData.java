@@ -8,5 +8,8 @@ import lombok.Getter;
 @Builder
 @Getter
 public class ContentData {
+    protected Long productId;
+    protected String type;
+    protected Long order;
 
 }

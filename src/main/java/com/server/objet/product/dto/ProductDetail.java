@@ -19,5 +19,5 @@ public class ProductDetail {
     private String artistName;
     private String artistInfo;
     private String artistPicPath;
-    private List<Content> contents;
+    private List<Object> contents;
 }

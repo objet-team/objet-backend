@@ -104,7 +104,7 @@ public class ProductService {
         Artist artist = artistRepository.findById(product.getArtistId()).get();
         List<Content> contents = product.getContents();
 
-        List<Content> resultContents = makeContentsList(contents);
+        List<Object> resultContents = makeContentsList(contents);
 
         ProductDetail productDetail = ProductDetail.builder()
                 .productId(id)
@@ -122,40 +122,41 @@ public class ProductService {
     }
 
     @Transactional
-    private List<Content> makeContentsList(List<Content> contents) {
-        List<Content> resultContents = new ArrayList<>();
-        Content currentContent = new Content();
+    private List<Object> makeContentsList(List<Content> contents) {
+        List<Object> resultContents = new ArrayList<>();
 
         for(Content content : contents) {
             String type = content.getType();
             if (type.equals("image")) {
-                currentContent = Content.builder()
-                        .id(content.getProductId())
+                ImageContent imageContent = ImageContent.builder()
+                        .productId(content.getProductId())
                         .type(content.getType())
-                        .contentOrder(content.getContentOrder())
+                        .order(content.getContentOrder())
                         .url(content.getUrl())
                         .align(content.getAlign())
                         .width(content.getWidth())
                         .height(content.getHeight())
                         .build();
+                resultContents.add(imageContent);
             } else if (type.equals("text")) {
-                currentContent = Content.builder()
-                        .id(content.getProductId())
+                TextContent textContent = TextContent.builder()
+                        .productId(content.getProductId())
                         .type(content.getType())
-                        .contentOrder(content.getContentOrder())
+                        .order(content.getContentOrder())
                         .sizeType(content.getSizeType())
                         .description(content.getDescription())
                         .align(content.getAlign())
                         .build();
+                resultContents.add(textContent);
             } else if (type.equals("space")) {
-                currentContent = Content.builder()
-                        .id(content.getProductId())
+                SpaceContent spaceContent = SpaceContent.builder()
+                        .productId(content.getProductId())
                         .type(content.getType())
-                        .contentOrder(content.getContentOrder())
+                        .order(content.getContentOrder())
                         .build();
+                resultContents.add(spaceContent);
             }
 
-            resultContents.add(currentContent);
         }
         return resultContents;
     }
