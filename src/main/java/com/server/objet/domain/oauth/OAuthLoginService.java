@@ -1,5 +1,7 @@
 package com.server.objet.domain.oauth;
 
+import com.server.objet.domain.auth.AuthTokens;
+import com.server.objet.domain.auth.AuthTokensGenerator;
 import com.server.objet.domain.oauth.kakao.KakaoTokens;
 import com.server.objet.global.entity.User;
 import com.server.objet.global.enums.Role;
@@ -11,38 +13,29 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OAuthLoginService {
     private final UserRepository userRepository ;
-
+    private final AuthTokensGenerator authTokensGenerator;
     private final RequestOAuthInfoService requestOAuthInfoService;
 
-    public KakaoTokens login(OAuthLoginParams params) {
 
-        KakaoTokens tokens = requestOAuthInfoService.getTokens(params);
-        OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(tokens,params);
-        Long userId = findOrCreateMember(oAuthInfoResponse,tokens);
-
-        System.out.println(userId);
-        System.out.println(tokens.getAccessToken());
-
-        return tokens;
+    public AuthTokens login(OAuthLoginParams params) {
+        OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
+        Long memberId = findOrCreateMember(oAuthInfoResponse);
+        return authTokensGenerator.generate(memberId);
     }
 
-
-    private Long findOrCreateMember(OAuthInfoResponse oAuthInfoResponse, KakaoTokens tokens) {
+    private Long findOrCreateMember(OAuthInfoResponse oAuthInfoResponse) {
         return userRepository.findByEmail(oAuthInfoResponse.getEmail())
                 .map(User::getId)
-                .orElseGet(() -> newMember(oAuthInfoResponse, tokens));
+                .orElseGet(() -> newMember(oAuthInfoResponse));
     }
 
-    private Long newMember(OAuthInfoResponse oAuthInfoResponse, KakaoTokens tokens) {
-        User user = User.builder()
-                .accessToken(tokens.getAccessToken())
-                .refreshToken(tokens.getRefreshToken())
+    private Long newMember(OAuthInfoResponse oAuthInfoResponse) {
+        User member = User.builder()
                 .email(oAuthInfoResponse.getEmail())
                 .name(oAuthInfoResponse.getNickname())
-                .role(Role.USER)
                 .oAuthProvider(oAuthInfoResponse.getOAuthProvider())
                 .build();
 
-        return userRepository.save(user).getId();
+        return userRepository.save(member).getId();
     }
 }
