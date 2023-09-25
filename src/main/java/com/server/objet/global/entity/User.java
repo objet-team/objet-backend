@@ -1,8 +1,10 @@
 package com.server.objet.global.entity;
 
+import com.server.objet.global.enums.OAuthProvider;
 import com.server.objet.global.enums.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "user_table")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User{
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,16 +26,27 @@ public class User{
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private String providerId; //카카오 id에 할당된 고유값
+    @Enumerated(EnumType.STRING)
+    private OAuthProvider oAuthProvider;
+
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private Role role; //USER(=Non Artist), ADMIN, ARTIST로 정의
 
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String accessToken;
 
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String refreshToken;
+
+    @Builder
+    public User(String email, String name, OAuthProvider oAuthProvider, Role role, String accessToken, String refreshToken) {
+        this.email = email;
+        this.name = name;
+        this.oAuthProvider = oAuthProvider;
+        this.role = role;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+    }
 }
