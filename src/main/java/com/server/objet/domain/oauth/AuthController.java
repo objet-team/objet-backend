@@ -17,7 +17,7 @@ public class AuthController {
 
     @PostMapping("/kakao")
     public ResponseEntity<String> loginKakao(@RequestBody KakaoLoginParams params) {
-        return ResponseEntity.ok("성공이올시다");
+        return ResponseEntity.ok(oAuthLoginService.login(params));
     }
 
 }

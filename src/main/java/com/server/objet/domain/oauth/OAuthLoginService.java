@@ -1,5 +1,6 @@
 package com.server.objet.domain.oauth;
 
+import com.server.objet.domain.oauth.kakao.KakaoTokens;
 import com.server.objet.global.entity.User;
 import com.server.objet.global.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ public class OAuthLoginService {
 
     public String login(OAuthLoginParams params) {
         OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
+        KakaoTokens kakaoTokens = new KakaoTokens();
         Long userId = findOrCreateMember(oAuthInfoResponse);
 //        return authTokensGenerator.generate(userId);
         return oAuthInfoResponse.getNickname();

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "user_table")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User{
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,17 +28,17 @@ public class User{
 
     private OAuthProvider oAuthProvider;
 
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String providerId; //카카오 id에 할당된 고유값
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private Role role; //USER(=Non Artist), ADMIN, ARTIST로 정의
 
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String accessToken;
 
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String refreshToken;
 
     @Builder
@@ -49,6 +49,7 @@ public class User{
         this.role = role;
     }
 
-
-
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken == null ? "" : accessToken;
+    }
 }
