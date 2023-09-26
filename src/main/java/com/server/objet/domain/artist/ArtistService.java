@@ -47,6 +47,7 @@ public class ArtistService {
         return null;
     }
 
+    @Transactional
     public ArtistInfoResponseDto getMyInfo(CustomUserDetails userDetails){
         User user = userRepository.findByEmail(userDetails.getEmail())
                 .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
@@ -59,6 +60,26 @@ public class ArtistService {
         return ArtistInfoResponseDto
                 .builder()
                 .name(user.getUsername())
+                .categoryList(artist.getCategory())
+                .comment(artist.getComment())
+                .build();
+    }
+
+    @Transactional
+    public ArtistInfoResponseDto getInfo(Long artistID){
+        Artist artist = artistRepository.findById(artistID)
+                .orElseThrow(() ->new UsernameNotFoundException("아티스트를 찾을 수 없습니다"));
+
+        //        System.out.println(user.getId()+user.getId().getClass().getName());
+//        System.out.println(userDetails.getUser().getId()+userDetails.getUser().getId().getClass().getName());
+//        Artist artist = artistRepository.findByUserId(userDetails.getUser().getId());
+
+
+//        ArtistInfoResponseDto result = new ArtistInfoResponseDto(artist);
+
+        return ArtistInfoResponseDto
+                .builder()
+                .name(artist.getUser().getUsername())
                 .categoryList(artist.getCategory())
                 .comment(artist.getComment())
                 .build();
