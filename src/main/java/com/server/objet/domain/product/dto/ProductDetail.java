@@ -1,6 +1,5 @@
 package com.server.objet.domain.product.dto;
 
-import com.server.objet.global.entity.Content;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

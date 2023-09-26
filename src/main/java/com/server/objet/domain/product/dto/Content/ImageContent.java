@@ -1,4 +1,4 @@
-package com.server.objet.domain.product.dto;
+package com.server.objet.domain.product.dto.Content;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
