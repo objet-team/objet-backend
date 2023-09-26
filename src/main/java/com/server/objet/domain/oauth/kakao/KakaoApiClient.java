@@ -1,5 +1,6 @@
 package com.server.objet.domain.oauth.kakao;
 
+import com.server.objet.domain.auth.AuthTokens;
 import com.server.objet.domain.oauth.OAuthApiClient;
 import com.server.objet.domain.oauth.OAuthInfoResponse;
 import com.server.objet.domain.oauth.OAuthLoginParams;

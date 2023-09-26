@@ -1,8 +1,6 @@
 package com.server.objet.domain.oauth;
 
-import com.server.objet.domain.oauth.kakao.KakaoTokens;
 import com.server.objet.global.enums.OAuthProvider;
-import org.antlr.v4.runtime.Token;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
