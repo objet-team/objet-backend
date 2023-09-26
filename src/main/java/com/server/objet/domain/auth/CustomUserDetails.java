@@ -1,36 +1,35 @@
 package com.server.objet.domain.auth;
 
 
+
+
 import com.server.objet.global.entity.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
+@Data
 public class CustomUserDetails implements UserDetails {
+
 
     private User user;
 
-    public CustomUserDetails(User user) {
-        this.user = user;
+    public CustomUserDetails(User user){
+        this.user =user;
+    }
+
+
+    public String getEmail(){
+        return user.getEmail();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collection = new ArrayList<>();
-        collection.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return user.getRole().toString();
-            }
-        });
-
+        collection.add((GrantedAuthority) () -> user.getRole().toString());
         return collection;
-    }
-
-    public User getUser() {
-        return user;
     }
 
     @Override
@@ -40,10 +39,9 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user.getName();
     }
 
-    // 아래부터는 나중에 조건에 맞춰서 추가하는 것으로!
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -61,6 +59,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
+

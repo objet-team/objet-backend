@@ -1,11 +1,12 @@
 package com.server.objet.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.server.objet.domain.auth.AuthTokensGenerator;
 import com.server.objet.domain.auth.CustomUserDetailsService;
-import com.server.objet.domain.oauth.CustomOAuthLoginFilter;
+import com.server.objet.domain.auth.jwt.JwtAuthenticationFilter;
+import com.server.objet.domain.auth.jwt.JwtService;
 import com.server.objet.global.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import com.server.objet.global.RequestURI;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +19,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -29,18 +30,21 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    private final CustomUserDetailsService customUserDetailsService;
-    private final AuthTokensGenerator authTokensGenerator;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final CustomUserDetailsService customUserDetailsService;
     private final UserRepository userRepository;
+    private final JwtService jwtService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**"
-                , "/sign/**", "/product/**","/auth/**", "/image/**");
+                , "/sign/**", "/product/**","/auth/**", "/image/**", "/artist/**",
+                        RequestURI.AUTH_URI);
     }
+
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -55,6 +59,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -63,13 +68,9 @@ public class SecurityConfiguration {
                         HeadersConfigurer.FrameOptionsConfig::disable))
 
                 .sessionManagement(
-                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-
-
-        http.addFilterAfter(customOAuthLoginFilter(), LogoutFilter.class);
-//        http.addFilterAfter(customLoginFilter(), CustomOAuthLoginFilter.class);
-//        http.addFilterBefore(jwtAuthenticationFilter(), CustomLoginFilter.class);
 
         return http.build();
     }
@@ -82,17 +83,10 @@ public class SecurityConfiguration {
         daoAuthenticationProvider.setUserDetailsService(customUserDetailsService);
         return new ProviderManager(daoAuthenticationProvider);
     }
-
     @Bean
-    public CustomOAuthLoginFilter customOAuthLoginFilter() {
-        CustomOAuthLoginFilter customOAuthLoginFilter = new CustomOAuthLoginFilter(objectMapper,
-                authenticationManager());
-
-        customOAuthLoginFilter.setAuthenticationManager(authenticationManager());
-//        customOAuthLoginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
-//        customOAuthLoginFilter.setAuthenticationFailureHandler(loginFailureHandler);
-
-        return customOAuthLoginFilter;
+    public JwtAuthenticationFilter jwtAuthenticationFilter(){
+        JwtAuthenticationFilter jwtAuthenticationFilter=new JwtAuthenticationFilter(jwtService,userRepository);
+        return jwtAuthenticationFilter;
     }
 
 }

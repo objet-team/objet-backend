@@ -1,11 +1,12 @@
-package com.server.objet.domain.oauth.kakao;
+package com.server.objet.domain.auth.kakao.res;
+
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-@Getter
-@NoArgsConstructor
+@Data
+@AllArgsConstructor
 public class KakaoTokens {
 
     @JsonProperty("access_token")
@@ -25,4 +26,8 @@ public class KakaoTokens {
 
     @JsonProperty("scope")
     private String scope;
+
+    public KakaoTokens(){
+
+    }
 }

@@ -1,12 +1,15 @@
 package com.server.objet.global.entity;
 
 import com.server.objet.global.entity.User;
+import com.server.objet.global.enums.Category;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,4 +34,12 @@ public class Artist {
     @Column(name = "pic_url")
     private String profilePicUrl;
 
+    private List<Category> category;
+
+    @Builder
+    public Artist(String comment, User user){
+        this.user = user;
+        this.comment = comment;
+        this.category = getCategory();
+    }
 }

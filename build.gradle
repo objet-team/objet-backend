@@ -33,9 +33,15 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
-	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+	implementation 'com.auth0:java-jwt:4.0.0'
+
+	// rest template
+
+	//rest template 4.5.2에서 4.5.9로 업그레이드
+	implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.2.1'
+
+	//jwt
+	implementation 'com.auth0:java-jwt:4.2.1'
 
 	//postgresql
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.27'
