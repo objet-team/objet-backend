@@ -11,6 +11,7 @@ import com.server.objet.global.repository.ArtistRepository;
 import com.server.objet.global.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,7 +24,7 @@ public class ArtistService {
 
     @Transactional
     public void setNewInfo(ArtistInfoRequestDto artistInfoRequestDto, CustomUserDetails userDetails) {
-        User user = userRepository.findByEmail(userDetails.getUser().getEmail());
+        User user = userRepository.findByEmail(userDetails.getUser().getEmail()).orElseThrow(()->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
 //                .orElseThrow(() -> new UserNotFoundException("등록된 사용자가 없습니다."));
 
 
