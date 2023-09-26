@@ -3,6 +3,7 @@ package com.server.objet.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.objet.domain.auth.AuthTokensGenerator;
 import com.server.objet.domain.auth.CustomUserDetailsService;
+import com.server.objet.domain.auth.JwtTokenProvider;
 import com.server.objet.domain.oauth.CustomOAuthLoginFilter;
 import com.server.objet.global.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class SecurityConfiguration {
     private final CustomUserDetailsService customUserDetailsService;
     private final AuthTokensGenerator authTokensGenerator;
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenManager;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
 
@@ -67,10 +69,13 @@ public class SecurityConfiguration {
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 
-
-        http.addFilterAfter(customOAuthLoginFilter(), LogoutFilter.class);
+//
+//        http.addFilterAfter(customOAuthLoginFilter(), LogoutFilter.class);
 //        http.addFilterAfter(customLoginFilter(), CustomOAuthLoginFilter.class);
 //        http.addFilterBefore(jwtAuthenticationFilter(), CustomLoginFilter.class);
+
+        http.addFilterAfter(customOAuthLoginFilter(), LogoutFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), CustomOAuthLoginFilter.class);
 
         return http.build();
     }
@@ -95,5 +100,8 @@ public class SecurityConfiguration {
 
         return customOAuthLoginFilter;
     }
-
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtTokenManager, userRepository);
+    }
 }
