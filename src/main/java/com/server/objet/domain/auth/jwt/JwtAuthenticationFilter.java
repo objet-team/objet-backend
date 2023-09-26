@@ -41,6 +41,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             RequestURI.ARTIST_URI + "/info/public",
 
+            RequestURI.PRODUCT_URI + "/popular",
+            RequestURI.PRODUCT_URI +"/new",
+            RequestURI.PRODUCT_URI + "/detail",
+
             "/swagger-ui/index.html",
             "/favicon.ico"
     };

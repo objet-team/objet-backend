@@ -11,8 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.awt.image.ImagingOpException;
 import java.io.IOException;
 
+import static com.server.objet.global.RequestURI.IMAGE_URI;
+
 @RestController
-@RequestMapping("image")
+@RequestMapping(IMAGE_URI)
 @RequiredArgsConstructor
 public class ImageController {
 
