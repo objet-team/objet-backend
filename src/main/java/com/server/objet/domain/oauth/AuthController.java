@@ -1,7 +1,7 @@
 package com.server.objet.domain.oauth;
 
+import com.server.objet.domain.auth.AuthTokens;
 import com.server.objet.domain.oauth.kakao.KakaoLoginParams;
-import com.server.objet.domain.oauth.kakao.KakaoTokens;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ public class AuthController {
     private final OAuthLoginService oAuthLoginService;
 
     @PostMapping("/kakao")
-    public ResponseEntity<KakaoTokens> loginKakao(@RequestBody KakaoLoginParams params) {
+    public ResponseEntity<AuthTokens> loginKakao(@RequestBody KakaoLoginParams params) {
         return ResponseEntity.ok(oAuthLoginService.login(params));
     }
 

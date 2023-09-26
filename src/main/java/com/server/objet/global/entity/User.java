@@ -41,12 +41,15 @@ public class User {
     private String refreshToken;
 
     @Builder
-    public User(String email, String name, OAuthProvider oAuthProvider, Role role, String accessToken, String refreshToken) {
+    public User(String email, String name, OAuthProvider oAuthProvider) {
         this.email = email;
         this.name = name;
         this.oAuthProvider = oAuthProvider;
-        this.role = role;
+        this.role = Role.USER;
+    }
+
+    public void update(String accessToken, String refreshToken){
         this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
+        this.refreshToken =refreshToken;
     }
 }
