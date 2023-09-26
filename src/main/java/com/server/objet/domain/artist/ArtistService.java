@@ -6,7 +6,6 @@ import com.server.objet.domain.auth.CustomUserDetails;
 import com.server.objet.global.entity.Artist;
 import com.server.objet.global.entity.User;
 import com.server.objet.global.enums.Role;
-import com.server.objet.global.exception.UserNotFoundException;
 import com.server.objet.global.repository.ArtistRepository;
 import com.server.objet.global.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -19,13 +18,13 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ArtistService {
-    ArtistRepository artistRepository;
-    UserRepository userRepository;
+    private final ArtistRepository artistRepository;
+    private final UserRepository userRepository;
 
     @Transactional
-    public void setNewInfo(ArtistInfoRequestDto artistInfoRequestDto, CustomUserDetails userDetails) {
-        User user = userRepository.findByEmail(userDetails.getUser().getEmail()).orElseThrow(()->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
-//                .orElseThrow(() -> new UserNotFoundException("등록된 사용자가 없습니다."));
+    public ArtistInfoResponseDto setNewInfo(ArtistInfoRequestDto artistInfoRequestDto, CustomUserDetails userDetails) {
+        User user = userRepository.findByEmail(userDetails.getEmail())
+                .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
 
 
         if(user.getRole()!=Role.ARTIST){
@@ -34,17 +33,34 @@ public class ArtistService {
             Artist artist = Artist.builder()
                     .user(user)
                     .comment(artistInfoRequestDto.getComment())
+                    .category(artistInfoRequestDto.getCategoryList())
                     .build();
 
             artistRepository.save(artist);
+            return ArtistInfoResponseDto
+                    .builder()
+                    .name(user.getUsername())
+                    .categoryList(artistInfoRequestDto.getCategoryList())
+                    .comment(artistInfoRequestDto.getComment())
+                    .build();
         }
+        return null;
     }
 
-//    public ArtistInfoResponseDto getMyInfo(CustomUserDetails userDetails){
-//        Optional<Artist> artist = artistRepository.findById(userDetails.getUser().getId());
+    public ArtistInfoResponseDto getMyInfo(CustomUserDetails userDetails){
+        User user = userRepository.findByEmail(userDetails.getEmail())
+                .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
+        System.out.println(user.getId());
+        System.out.println(userDetails.getUser().getId());
+        Artist artist = artistRepository.findByUserId(userDetails.getUser().getId());
+
 //        ArtistInfoResponseDto result = new ArtistInfoResponseDto(artist);
-//
-//        return result;
-//
-//    }
+
+        return ArtistInfoResponseDto
+                .builder()
+                .name(user.getUsername())
+                .categoryList(artist.getCategory())
+                .comment(artist.getComment())
+                .build();
+    }
 }

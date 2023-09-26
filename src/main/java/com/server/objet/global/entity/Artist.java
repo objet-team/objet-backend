@@ -34,12 +34,13 @@ public class Artist {
     @Column(name = "pic_url")
     private String profilePicUrl;
 
+    @Enumerated(EnumType.STRING)
     private List<Category> category;
 
     @Builder
-    public Artist(String comment, User user){
+    public Artist(String comment, User user, List<Category> category){
         this.user = user;
         this.comment = comment;
-        this.category = getCategory();
+        this.category = category;
     }
 }
