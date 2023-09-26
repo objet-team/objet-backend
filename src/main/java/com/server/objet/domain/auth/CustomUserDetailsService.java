@@ -19,8 +19,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     // 함수명은 메서드 구현때문에 어쩔 수 없음.
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException(email + " : 해당 이메일을 가진 유저가 존재하지 않습니다."));
+        User user = userRepository.findByEmail(email);
+//                .orElseThrow(() -> new IllegalArgumentException(email + " : 해당 이메일을 가진 유저가 존재하지 않습니다."));
 
         return new CustomUserDetails(user);
     }

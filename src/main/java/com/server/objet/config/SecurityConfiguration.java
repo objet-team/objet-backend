@@ -5,6 +5,7 @@ import com.server.objet.domain.auth.AuthTokensGenerator;
 import com.server.objet.domain.auth.CustomUserDetailsService;
 import com.server.objet.domain.auth.JwtTokenProvider;
 import com.server.objet.domain.oauth.CustomOAuthLoginFilter;
+import com.server.objet.domain.oauth.JwtAuthorizationFilter;
 import com.server.objet.global.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import com.server.objet.global.RequestURI;
@@ -47,6 +48,7 @@ public class SecurityConfiguration {
                         RequestURI.AUTH_URI);
     }
 
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -71,13 +73,15 @@ public class SecurityConfiguration {
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 
+        http.addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository));
+
 //
 //        http.addFilterAfter(customOAuthLoginFilter(), LogoutFilter.class);
 //        http.addFilterAfter(customLoginFilter(), CustomOAuthLoginFilter.class);
 //        http.addFilterBefore(jwtAuthenticationFilter(), CustomLoginFilter.class);
 
-        http.addFilterAfter(customOAuthLoginFilter(), LogoutFilter.class);
-        http.addFilterBefore(jwtAuthenticationFilter(), CustomOAuthLoginFilter.class);
+//        http.addFilterAfter(customOAuthLoginFilter(), LogoutFilter.class);
+//        http.addFilterBefore(jwtAuthenticationFilter(), CustomOAuthLoginFilter.class);
 
         return http.build();
     }
@@ -91,19 +95,19 @@ public class SecurityConfiguration {
         return new ProviderManager(daoAuthenticationProvider);
     }
 
-    @Bean
-    public CustomOAuthLoginFilter customOAuthLoginFilter() {
-        CustomOAuthLoginFilter customOAuthLoginFilter = new CustomOAuthLoginFilter(objectMapper,
-                authenticationManager());
-
-        customOAuthLoginFilter.setAuthenticationManager(authenticationManager());
-//        customOAuthLoginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
-//        customOAuthLoginFilter.setAuthenticationFailureHandler(loginFailureHandler);
-
-        return customOAuthLoginFilter;
-    }
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtTokenManager, userRepository);
-    }
+//    @Bean
+//    public CustomOAuthLoginFilter customOAuthLoginFilter() {
+//        CustomOAuthLoginFilter customOAuthLoginFilter = new CustomOAuthLoginFilter(objectMapper,
+//                authenticationManager());
+//
+//        customOAuthLoginFilter.setAuthenticationManager(authenticationManager());
+////        customOAuthLoginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
+////        customOAuthLoginFilter.setAuthenticationFailureHandler(loginFailureHandler);
+//
+//        return customOAuthLoginFilter;
+//    }
+//    @Bean
+//    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+//        return new JwtAuthenticationFilter(jwtTokenManager, userRepository);
+//    }
 }
