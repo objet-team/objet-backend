@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class ArtistService {
@@ -55,8 +53,6 @@ public class ArtistService {
         System.out.println(userDetails.getUser().getId()+userDetails.getUser().getId().getClass().getName());
         Artist artist = artistRepository.findByUserId(userDetails.getUser().getId());
 
-//        ArtistInfoResponseDto result = new ArtistInfoResponseDto(artist);
-
         return ArtistInfoResponseDto
                 .builder()
                 .name(user.getUsername())
@@ -70,13 +66,6 @@ public class ArtistService {
         Artist artist = artistRepository.findById(artistID)
                 .orElseThrow(() ->new UsernameNotFoundException("아티스트를 찾을 수 없습니다"));
 
-        //        System.out.println(user.getId()+user.getId().getClass().getName());
-//        System.out.println(userDetails.getUser().getId()+userDetails.getUser().getId().getClass().getName());
-//        Artist artist = artistRepository.findByUserId(userDetails.getUser().getId());
-
-
-//        ArtistInfoResponseDto result = new ArtistInfoResponseDto(artist);
-
         return ArtistInfoResponseDto
                 .builder()
                 .name(artist.getUser().getUsername())
@@ -84,4 +73,17 @@ public class ArtistService {
                 .comment(artist.getComment())
                 .build();
     }
+    @Transactional
+    public ArtistInfoResponseDto chagneMyInfo(ArtistInfoRequestDto artistInfoRequestDto, CustomUserDetails userDetails){
+        Artist artist = artistRepository.findByUserId(userDetails.getUser().getId());
+
+        artist.update(artistInfoRequestDto.getComment(), artistInfoRequestDto.getCategoryList());
+
+        return ArtistInfoResponseDto
+                .builder()
+                .name(userDetails.getUser().getUsername())
+                .categoryList(artistInfoRequestDto.getCategoryList())
+                .comment(artistInfoRequestDto.getComment())
+                .build();
+        }
 }

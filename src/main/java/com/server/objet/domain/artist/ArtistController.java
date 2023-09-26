@@ -57,4 +57,11 @@ public class ArtistController {
     public ResponseEntity<ArtistInfoResponseDto> Info(@PathVariable Long artistId) {
         return ResponseEntity.ok(artistService.getInfo(artistId));
     }
+
+    @PatchMapping("/info")
+    @Operation(summary = "나의 아티스트 정보 수정", description = "토큰이 필요합니다. 현재 프로필 이미지는 지원하지 않습니다.")
+    public ResponseEntity<ArtistInfoResponseDto> ChangeInfo(@RequestBody @Valid ArtistInfoRequestDto artistInfoRequestDto,
+                                                            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(artistService.chagneMyInfo(artistInfoRequestDto, userDetails));
+    }
 }
