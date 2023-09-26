@@ -41,6 +41,9 @@ dependencies {
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.27'
 	runtimeOnly 'org.postgresql:postgresql'
 
+	// AWS S3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 }
 
 tasks.named('test') {
