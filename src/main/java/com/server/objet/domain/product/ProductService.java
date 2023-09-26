@@ -1,18 +1,27 @@
 package com.server.objet.domain.product;
 
-import com.server.objet.domain.product.dto.*;
+import com.server.objet.domain.product.dto.Content.ImageContent;
+import com.server.objet.domain.product.dto.Content.SpaceContent;
+import com.server.objet.domain.product.dto.Content.TextContent;
+import com.server.objet.domain.product.dto.req.ProductInfo;
+import com.server.objet.domain.product.dto.res.MainPageProductInfo;
+import com.server.objet.domain.product.dto.res.MainPageProducts;
+import com.server.objet.domain.product.dto.ProductDetail;
+import com.server.objet.domain.product.dto.res.RegisterProductResult;
 import com.server.objet.global.entity.Artist;
 import com.server.objet.global.entity.Content;
 import com.server.objet.global.entity.Like;
 import com.server.objet.global.entity.Product;
 import com.server.objet.global.repository.*;
 
-import com.server.objet.domain.product.dto.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -122,6 +131,37 @@ public class ProductService {
         return productDetail;
     }
 
+    public RegisterProductResult doRegisterProduct(ProductInfo productInfo, Long artistId) {
+        // 유저는 jwt로 resolve 해서 받아야함
+
+        Product product = Product.builder()
+                .artistId(artistId)
+                .title(productInfo.getTitle())
+                .desc(productInfo.getDetail())
+                .category(productInfo.getCategory())
+                .uploadAt(LocalDateTime.now())
+                .build();
+        productRepository.save(product);
+
+        Long productId = product.getId();
+
+        for (Object artistContent : productInfo.getContents()) {
+            String content = artistContent.toString();
+            parseContent(content, productId);
+        }
+
+        Long defaultCount = (Long) 0L;
+
+        Like like = Like.builder()
+                .product(productRepository.findById(productId).get())
+                .count(defaultCount)
+                .build();
+
+        likeRepository.save(like);
+
+        return new RegisterProductResult("Success", productId);
+    }
+
     @Transactional
     private List<Object> makeContentsList(List<Content> contents) {
         List<Object> resultContents = new ArrayList<>();
@@ -160,6 +200,59 @@ public class ProductService {
 
         }
         return resultContents;
+    }
+
+    private void parseContent(String rawContent, Long productId) {
+        String str = rawContent.substring(1, rawContent.length() - 1);
+        List<String> parsing = Arrays.asList(str.split(","));
+
+        HashMap <String, String> contentMap = new HashMap<>();
+        for (String name: parsing) {
+            String[] tokens = name.trim().split("=", 2);
+            contentMap.put(tokens[0], tokens[1]);
+        }
+
+        if (contentMap.get("type").equals("text")) {
+            Content content = Content.builder()
+                    .type(contentMap.get("type"))
+                    .productId(productId)
+                    .contentOrder(Integer.parseInt(contentMap.get("order")))
+                    .sizeType(contentMap.get("sizeType"))
+                    .description(contentMap.get("description"))
+                    .align(contentMap.get("align"))
+                    .url(null)
+                    .width(null)
+                    .height(null)
+                    .build();
+            contentRepository.save(content);
+        } else if (contentMap.get("type").equals("image")) {
+            Content content = Content.builder()
+                    .type(contentMap.get("type"))
+                    .productId(productId)
+                    .contentOrder(Integer.parseInt(contentMap.get("order")))
+                    .sizeType(null)
+                    .description(null)
+                    .align(contentMap.get("align"))
+                    .url(contentMap.get("url"))
+                    .width(Long.parseLong(contentMap.get("width")))
+                    .height(Long.parseLong(contentMap.get("height")))
+                    .build();
+            contentRepository.save(content);
+        } else if (contentMap.get("type").equals("space")) {
+            Content content = Content.builder()
+                    .type(contentMap.get("type"))
+                    .productId(productId)
+                    .contentOrder(Integer.parseInt(contentMap.get("order")))
+                    .sizeType(null)
+                    .description(null)
+                    .align(null)
+                    .url(null)
+                    .width(null)
+                    .height(null)
+                    .build();
+            contentRepository.save(content);
+
+        }
     }
 
 }
