@@ -7,6 +7,7 @@ import com.server.objet.domain.auth.JwtTokenProvider;
 import com.server.objet.domain.oauth.CustomOAuthLoginFilter;
 import com.server.objet.global.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import com.server.objet.global.RequestURI;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,7 +43,8 @@ public class SecurityConfiguration {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**"
-                , "/sign/**", "/product/**","/auth/**", "/image/**", "/artist/**");
+                , "/sign/**", "/product/**","/auth/**", "/image/**", "/artist/**",
+                        RequestURI.AUTH_URI);
     }
 
     @Bean

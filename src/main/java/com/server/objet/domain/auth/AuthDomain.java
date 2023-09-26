@@ -2,6 +2,7 @@ package com.server.objet.domain.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.server.objet.domain.oauth.OAuthInfoResponse;
 import com.server.objet.global.entity.User;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +23,7 @@ public class AuthDomain {
     private final ObjectMapper objectMapper;
     private final AuthenticationManager authenticationManager;
 
-    public Authentication authentication(String contentType, String jsonBody)
+    public Authentication authentication(String contentType, OAuthInfoResponse infoResponse)
             throws JsonProcessingException {
         // 여기서 request의 body를 ObjectMapper로 읽고 로그인 처리를 해주는 것!
 
@@ -32,13 +33,14 @@ public class AuthDomain {
                     "지원되지 않는 Content-Type입니다. " + contentType);
         }
 
-        User mappedBody = objectMapper.readValue(jsonBody, User.class);
+//        OAuthInfoResponse mappedBody = objectMapper.readValue(jsonBody, OAuthInfoResponse.class);
 
-        String email = mappedBody.getEmail();
-        String password = "pwpwpwpw";
+
+        String email = infoResponse.getEmail();
+        //Todo 여기 좀 걸림
 
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(email,
-                password);
+                null);
         return authenticationManager.authenticate(authReq);
     }
 }

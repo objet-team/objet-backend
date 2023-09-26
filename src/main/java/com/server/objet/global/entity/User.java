@@ -20,6 +20,9 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
+//    @JsonIgnore
+//    private String authorizationCode;
+
     @Column(nullable = false)
     private String name;
 
@@ -28,7 +31,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private OAuthProvider oAuthProvider;
-
 
     @Enumerated(EnumType.STRING)
 //    @Column(nullable = false)
