@@ -36,6 +36,8 @@ public class OAuthLoginService {
 
         user.update(tokens.getAccessToken(),tokens.getRefreshToken());
 
+        System.out.println("user"+user.getAccessToken());
+
         return tokens;
     }
     
