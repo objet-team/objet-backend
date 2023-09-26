@@ -1,11 +1,11 @@
 package com.server.objet.domain.artist;
 
 import com.server.objet.domain.artist.dto.ArtistInfoRequestDto;
-import com.server.objet.domain.user.CustomUserDetails;
-import com.server.objet.product.dto.MainPageProducts;
-import com.server.objet.product.dto.ProductDetail;
+import com.server.objet.domain.artist.dto.ArtistInfoResponseDto;
+import com.server.objet.domain.auth.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,8 +38,18 @@ public class ArtistController {
     }
 
 
-//    @GetMapping("/info/{id}")
-//    public ArtistInfo Info(@PathVariable("id") Long id){ return artistService.getInfo(id);}
+
+
+//    @GetMapping("/info/{id}") //남의 계정
+//    public ArtistInfoResponseDto Info(@PathVariable("id") Long id){
+//        return artistService.getInfo(id);
+//    }
+
+//    @GetMapping("/info") //내 계정
+//    public ArtistInfoResponseDto Info(@AuthenticationPrincipal CustomUserDetails userDetails){
+//        return ResponseEntity.ok(artistService.getMyInfo(userDetails)).getBody();
+//
+//    }
 
 
 }

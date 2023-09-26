@@ -1,7 +1,8 @@
 package com.server.objet.domain.artist;
 
 import com.server.objet.domain.artist.dto.ArtistInfoRequestDto;
-import com.server.objet.domain.user.CustomUserDetails;
+import com.server.objet.domain.artist.dto.ArtistInfoResponseDto;
+import com.server.objet.domain.auth.CustomUserDetails;
 import com.server.objet.global.entity.Artist;
 import com.server.objet.global.entity.User;
 import com.server.objet.global.enums.Role;
@@ -11,6 +12,8 @@ import com.server.objet.global.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,4 +38,12 @@ public class ArtistService {
             artistRepository.save(artist);
         }
     }
+
+//    public ArtistInfoResponseDto getMyInfo(CustomUserDetails userDetails){
+//        Optional<Artist> artist = artistRepository.findById(userDetails.getUser().getId());
+//        ArtistInfoResponseDto result = new ArtistInfoResponseDto(artist);
+//
+//        return result;
+//
+//    }
 }
