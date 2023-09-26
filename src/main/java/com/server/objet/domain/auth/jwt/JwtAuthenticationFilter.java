@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)
                 .ifPresent(accessToken -> jwtService.extractUuid(accessToken)
-                        .ifPresent(id->userRepository.findById(Long.valueOf(id))
+                        .ifPresent(id->userRepository.findByEmail(id)
                                 .ifPresent(this::saveAuthentication)));
 
         filterChain.doFilter(request, response);
