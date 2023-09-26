@@ -5,6 +5,7 @@ import com.server.objet.domain.artist.dto.ArtistInfoResponseDto;
 import com.server.objet.domain.auth.CustomUserDetails;
 import com.server.objet.domain.auth.kakao.req.KakaoLoginRequest;
 import com.server.objet.global.entity.Artist;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,7 @@ public class ArtistController {
 //    }
 
     @PostMapping("/info")
+    @Operation(summary = "나의 아티스트 정보 등록", description = "토큰이 필요합니다. 현재 프로필 이미지 업로드는 지원하지 않습니다.")
     public ResponseEntity<ArtistInfoResponseDto> ArtistRegister(@RequestBody @Valid ArtistInfoRequestDto artistInfoRequestDto,
                                @AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(artistService.setNewInfo(artistInfoRequestDto,userDetails));
@@ -43,6 +45,7 @@ public class ArtistController {
 
 
     @GetMapping("/info") //내 계정
+    @Operation(summary = "나의 아티스트 정보 조회", description = "토큰이 필요합니다. 현재 프로필 이미지는 지원하지 않습니다.")
     public ResponseEntity<ArtistInfoResponseDto> Info(@AuthenticationPrincipal CustomUserDetails userDetails){
         return ResponseEntity.ok(artistService.getMyInfo(userDetails));
 

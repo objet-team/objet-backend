@@ -50,8 +50,8 @@ public class ArtistService {
     public ArtistInfoResponseDto getMyInfo(CustomUserDetails userDetails){
         User user = userRepository.findByEmail(userDetails.getEmail())
                 .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
-        System.out.println(user.getId());
-        System.out.println(userDetails.getUser().getId());
+        System.out.println(user.getId()+user.getId().getClass().getName());
+        System.out.println(userDetails.getUser().getId()+userDetails.getUser().getId().getClass().getName());
         Artist artist = artistRepository.findByUserId(userDetails.getUser().getId());
 
 //        ArtistInfoResponseDto result = new ArtistInfoResponseDto(artist);
