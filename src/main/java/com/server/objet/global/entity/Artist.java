@@ -1,6 +1,5 @@
 package com.server.objet.global.entity;
 
-import com.server.objet.global.entity.User;
 import com.server.objet.global.enums.Category;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -40,6 +39,11 @@ public class Artist {
     @Builder
     public Artist(String comment, User user, List<Category> category){
         this.user = user;
+        this.comment = comment;
+        this.category = category;
+    }
+
+    public void update(String comment, List<Category> category){
         this.comment = comment;
         this.category = category;
     }

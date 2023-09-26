@@ -4,6 +4,7 @@ package com.server.objet.domain.auth.jwt;
 
 
 import com.server.objet.domain.auth.CustomUserDetails;
+import com.server.objet.global.RequestURI;
 import com.server.objet.global.entity.User;
 import com.server.objet.global.repository.UserRepository;
 
@@ -21,11 +22,31 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private static final String[] NO_CHECK_URI_ARRAY = {
+            //토큰 필요 없는 것들은 여기에서 설정해야 함
 
+            RequestURI.USER_URI + "/login",
+            RequestURI.USER_URI + "/signup",
+            RequestURI.USER_URI + "/oauth-login",
+            RequestURI.USER_URI + "/verify-user-email",
+
+            RequestURI.AUTH_URI + "/kakao",
+
+            RequestURI.ARTIST_URI + "/info/public",
+
+            "/swagger-ui/index.html",
+            "/favicon.ico"
+    };
+
+    private static final List<String> NO_CHECK_URIS = new ArrayList<>(
+            Arrays.asList(NO_CHECK_URI_ARRAY));
     private final JwtService jwtService;
     private final UserRepository userRepository;
 
@@ -57,8 +78,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String NO_CHECK_URL = "/api/v1/auth/kakao";
-        if (request.getRequestURI().equals(NO_CHECK_URL)) {
+
+//        String NO_CHECK_URL = "/api/v1/auth/kakao";
+        if (request.getRequestURI().equals(NO_CHECK_URIS)) {
             log.info("로그인 진입");
             filterChain.doFilter(request, response);
             return; // return으로 이후 현재 필터 진행 막기 (안해주면 아래로 내려가서 계속 필터 진행시킴)
