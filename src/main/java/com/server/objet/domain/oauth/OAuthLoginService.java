@@ -28,10 +28,10 @@ public class OAuthLoginService {
         User user = User.builder()
 //                .email(oAuthInfoResponse.getEmail())
 //                .name(oAuthInfoResponse.getNickname())
-                .role(Role.USER)
+//                .role(Role.USER)
 //                .oAuthProvider(oAuthInfoResponse.getOAuthProvider())
-                .accessToken(tokens.getAccessToken())
-                .refreshToken(tokens.getRefreshToken())
+//                .accessToken(tokens.getAccessToken())
+//                .refreshToken(tokens.getRefreshToken())
                 .build();
 
         user.update(tokens.getAccessToken(),tokens.getRefreshToken());
@@ -53,7 +53,7 @@ public class OAuthLoginService {
         User user = User.builder()
                 .email(oAuthInfoResponse.getEmail())
                 .name(oAuthInfoResponse.getNickname())
-                .role(Role.USER)
+//                .role(Role.USER)
                 .oAuthProvider(oAuthInfoResponse.getOAuthProvider())
 //                .accessToken(tokens.getAccessToken())
 //                .refreshToken(tokens.getRefreshToken())
