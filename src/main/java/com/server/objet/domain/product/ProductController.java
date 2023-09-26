@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import static com.server.objet.global.RequestURI.PRODUCT_URI;
+
 @RestController
-@RequestMapping("product")
+@RequestMapping(PRODUCT_URI)
 @RequiredArgsConstructor
 public class ProductController {
 
