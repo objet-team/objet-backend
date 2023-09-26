@@ -48,10 +48,10 @@ public class SwaggerConfig {
 //                .loginEndpointCustomizer(loginFilter, "login");
 //    }
 
-    @Bean
-    OpenApiCustomizer customOAuthLoginEndpointCustomizer(
-            CustomOAuthLoginFilter loginFilter) {
-        return new LoginEndpointCustomizer<>()
-                .oauthLoginEndpointCustomizer(loginFilter, "login");
-    }
+//    @Bean
+//    OpenApiCustomizer customOAuthLoginEndpointCustomizer(
+//            CustomOAuthLoginFilter loginFilter) {
+//        return new LoginEndpointCustomizer<>()
+//                .oauthLoginEndpointCustomizer(loginFilter, "login");
+//    }
 }
