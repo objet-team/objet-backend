@@ -1,4 +1,4 @@
-package com.server.objet.domain.hiring;
+package com.server.objet.domain.hiring.dto.response;
 
 import java.util.List;
 

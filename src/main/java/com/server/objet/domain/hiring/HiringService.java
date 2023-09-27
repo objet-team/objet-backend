@@ -1,6 +1,8 @@
 package com.server.objet.domain.hiring;
 
 import com.server.objet.domain.auth.CustomUserDetails;
+import com.server.objet.domain.hiring.dto.response.HiringDetailResponseDto;
+import com.server.objet.domain.hiring.dto.response.HiringListResponseDto;
 import com.server.objet.global.entity.Hiring;
 import com.server.objet.global.entity.Product;
 import com.server.objet.global.entity.User;
@@ -9,21 +11,24 @@ import com.server.objet.global.repository.HiringRepository;
 import com.server.objet.global.repository.ProductRepository;
 import com.server.objet.global.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Service
+@RequiredArgsConstructor
 public class HiringService {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    ArtistRepository artistRepository;
-    ProductRepository productRepository;
+    private final ArtistRepository artistRepository;
+    private final ProductRepository productRepository;
 
-    HiringRepository hiringRepository;
+    private final HiringRepository hiringRepository;
 
 
     @Transactional

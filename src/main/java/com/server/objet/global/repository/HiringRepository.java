@@ -1,6 +1,6 @@
 package com.server.objet.global.repository;
 
-import com.server.objet.domain.hiring.HiringDetailResponseDto;
+import com.server.objet.domain.hiring.dto.response.HiringDetailResponseDto;
 import com.server.objet.global.entity.Hiring;
 import org.springframework.data.jpa.repository.JpaRepository;
 

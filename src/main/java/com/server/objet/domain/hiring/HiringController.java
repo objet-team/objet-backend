@@ -1,6 +1,8 @@
 package com.server.objet.domain.hiring;
 
 import com.server.objet.domain.auth.CustomUserDetails;
+import com.server.objet.domain.hiring.dto.response.HiringDetailResponseDto;
+import com.server.objet.domain.hiring.dto.response.HiringListResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +17,14 @@ import static com.server.objet.global.RequestURI.HIRING_URI;
 public class HiringController {
     //productId 넣어서 리스트 하나 -> 기업명, 날짜만 여기서 hiringid 넘기기
 
-    HiringService hiringService;
+    private final HiringService hiringService;
 
 
     @PostMapping("/{productId}")
     @Operation(summary = "고용 제안하기", description = "{작업 중} 토큰이 필요합니다.")
     public ResponseEntity<HiringDetailResponseDto> Hiring(@PathVariable("productId") Long productId,
-                             @RequestBody HiringRequestDto hiringRequestDto,
-                             @AuthenticationPrincipal CustomUserDetails userDetails) {
+                                                          @RequestBody HiringRequestDto hiringRequestDto,
+                                                          @AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(hiringService.postHiring(userDetails, productId, hiringRequestDto));
     }
 

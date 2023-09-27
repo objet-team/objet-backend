@@ -1,10 +1,11 @@
-package com.server.objet.domain.hiring;
+package com.server.objet.domain.hiring.dto.response;
 
-import com.server.objet.global.entity.Hiring;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class HiringDetailResponseDto {
 
     LocalDateTime localDateTime; //일시
