@@ -1,8 +1,6 @@
 package com.server.objet.domain.hiring;
 
 import com.server.objet.domain.auth.CustomUserDetails;
-import com.server.objet.domain.hiring.dto.response.HiringDetailResponseDto;
-import com.server.objet.domain.hiring.dto.response.HiringListResponseDto;
 import com.server.objet.global.entity.Hiring;
 import com.server.objet.global.entity.Product;
 import com.server.objet.global.entity.User;
@@ -76,7 +74,9 @@ public class HiringService {
         HiringListResponseDto result = new HiringListResponseDto(hiringInfoList);
 
 
-        return result;
+        return HiringListResponseDto.builder()
+                .hiringInfoList(result.getHiringInfoList())
+                .build();
     }
 
     @Transactional

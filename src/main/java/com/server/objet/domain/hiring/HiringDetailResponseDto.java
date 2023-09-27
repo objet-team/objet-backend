@@ -1,4 +1,4 @@
-package com.server.objet.domain.hiring.dto.response;
+package com.server.objet.domain.hiring;
 
 import lombok.Builder;
 import lombok.Getter;
