@@ -6,13 +6,12 @@ import com.server.objet.domain.auth.kakao.OAuthService;
 import com.server.objet.domain.auth.kakao.res.KakaoInfoResponse;
 import com.server.objet.domain.auth.res.PostLoginRes;
 import com.server.objet.global.entity.User;
+import com.server.objet.global.enums.OAuthProvider;
 import com.server.objet.global.enums.Role;
 import com.server.objet.global.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +19,9 @@ import java.util.UUID;
 public class AuthService {
 
     private final OAuthService oAuthService;
-    private final UserRepository userRepository;
-
     private final JwtService jwtService;
+
+    private final UserRepository userRepository;
 
     @Transactional
     public PostLoginRes login(String authorizationCode){
@@ -40,10 +39,10 @@ public class AuthService {
     }
 
     @Transactional
-
     public User saveUser(KakaoInfoResponse kakaoInfoResponse){
 
-       User member = User.builder()
+        User member = User.builder()
+                .oAuthProvider(OAuthProvider.KAKAO)
                 .email(kakaoInfoResponse.getKakaoAccount().getEmail())
                 .role(Role.USER)
                 .name(kakaoInfoResponse.getKakaoAccount().getProfile().getNickname())
