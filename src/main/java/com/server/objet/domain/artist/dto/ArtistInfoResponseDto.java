@@ -7,24 +7,17 @@ import lombok.Getter;
 
 import java.util.List;
 
+@Builder
+@Getter
 public class ArtistInfoResponseDto {
 
-    @Getter
     private final String comment;
-    @Getter
     private final String name;
-    @Getter
     private final List<Category> categoryList;
-    @Getter
     private final String profile;
 
+    private final Long followingNum; //유저로서 내가 팔로잉 하는 수
+    private final Long followerNum; //작가인 나를 팔로워하는 사람의 수
 
-    @Builder
-    public ArtistInfoResponseDto(String comment,String name,List<Category> categoryList,String profile){
-        this.name = name;
-        this.comment = comment;
-        this.profile = profile;
-        this.categoryList = categoryList;
-    }
 
 }
