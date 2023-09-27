@@ -32,11 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String[] NO_CHECK_URI_ARRAY = {
             //토큰 필요 없는 것들은 여기에서 설정해야 함
 
-            RequestURI.USER_URI + "/login",
-            RequestURI.USER_URI + "/signup",
-            RequestURI.USER_URI + "/oauth-login",
-            RequestURI.USER_URI + "/verify-user-email",
-
             RequestURI.AUTH_URI + "/kakao",
 
             RequestURI.ARTIST_URI + "/info/public",
