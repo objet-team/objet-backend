@@ -29,6 +29,7 @@ public class AuthService {
         String accessToken = oAuthService.requestAccessToken(authorizationCode);
         KakaoInfoResponse kakaoInfoResponse =oAuthService.requestOauthInfo(accessToken);
         String email=kakaoInfoResponse.getKakaoAccount().getEmail();
+        System.out.println(email);
         User user = userRepository.findByEmail(email).orElseGet(
                 ()->saveUser(kakaoInfoResponse)
         );
