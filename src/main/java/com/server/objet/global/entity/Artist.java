@@ -30,6 +30,10 @@ public class Artist {
     @JoinColumn(name = "a_idx")
     private Collection<Product> products;
 
+    @OneToMany
+    @JoinColumn(name = "a_idx")
+    private Collection<Goods> goods;
+
     @Column(name = "pic_url")
     private String profilePicUrl;
 
