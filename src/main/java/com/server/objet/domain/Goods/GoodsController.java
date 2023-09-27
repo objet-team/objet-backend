@@ -41,4 +41,5 @@ public class GoodsController {
     public RegisterNormalGoodsResult registerGoods(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody GoodsInfo goodsInfo) {
         return goodsService.doRegisterNormalGoods(goodsInfo, userDetails);
     }
+
 }
