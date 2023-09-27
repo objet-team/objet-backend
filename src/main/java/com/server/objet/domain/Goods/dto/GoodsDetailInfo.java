@@ -14,6 +14,7 @@ public class GoodsDetailInfo {
     private String name;
     private String category;
     private String description;
+    private Long price;
     private String artistName;
     private String artistInfo;
     private String artistPicPath;

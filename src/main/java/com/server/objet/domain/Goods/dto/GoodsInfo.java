@@ -15,5 +15,6 @@ public class GoodsInfo {
     private String title;
     private String category;
     private String description;
+    private Long price;
     private List<Object> goodsDetails;
 }
