@@ -1,7 +1,5 @@
 package com.server.objet.global.entity;
 
-import com.server.objet.domain.hiring.HiringCall;
-import com.server.objet.global.enums.Category;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -9,9 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 @Entity
 @Getter
@@ -23,17 +18,25 @@ public class Hiring {
     @Column(name = "hiring_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @Column (name = "product_id")
+    private Long productId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column (name = "user_id")
+    private Long userId;
 
     private LocalDateTime localDateTime; //일시
     private String company; //회사명
     private String comment; //내용
     private String contact; //연락처
+
+    @Builder
+    public Hiring(Long productId, Long userId, LocalDateTime localDateTime, String comment, String company, String contact){
+        this.comment = comment;
+        this.company = company;
+        this.contact = contact;
+        this.productId = productId;
+        this.userId = userId;
+        this.localDateTime =localDateTime;
+    }
 
 }

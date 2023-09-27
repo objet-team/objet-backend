@@ -8,6 +8,8 @@ public class RequestURI {
     public static final String USER_URI = CURRENT_VER + "/users";
     public static final String IMAGE_URI = CURRENT_VER + "/image";
     public static final String PRODUCT_URI = CURRENT_VER +"/product";
+    public static final String HIRING_URI = CURRENT_VER +"/hiring";
+
     public static final String EMAIL_URI = CURRENT_VER + "/email";
     public static final String WEATHER_URI = CURRENT_VER + "/weather";
     public static final String MEMO_URI = CURRENT_VER + "/memo";

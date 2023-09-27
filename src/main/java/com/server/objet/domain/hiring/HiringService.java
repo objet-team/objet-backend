@@ -11,6 +11,8 @@ import com.server.objet.global.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -24,58 +26,71 @@ public class HiringService {
     HiringRepository hiringRepository;
 
 
+    @Transactional
+    public HiringDetailResponseDto postHiring(CustomUserDetails userDetails, Long productId, HiringRequestDto hiringRequestDto){
+        //고용 제의 보내는 사람 식별
+        User user = userRepository.findByEmail(userDetails.getEmail())
+                .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
+
+        //프로덕트 찾기
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() ->new NoSuchElementException("해당 전시를 찾을 수 없습니다."));
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+
+        Hiring hiring = Hiring.builder()
+                .company(hiringRequestDto.company)
+                .contact(hiringRequestDto.contact)
+                .comment(hiringRequestDto.comment)
+                .localDateTime(currentDateTime) //그냥 현재로
+                .userId(user.getId())
+                .productId(productId)
+                .build();
+
+
+        hiringRepository.save(hiring);
+
+        return HiringDetailResponseDto.builder()
+                .comment(hiringRequestDto.comment)
+                .company(hiringRequestDto.company)
+                .contact(hiringRequestDto.contact)
+                .comment(hiringRequestDto.comment)
+                .localDateTime(currentDateTime) //그냥 현재로
+                .build();
+    }
 
     @Transactional
     public HiringListResponseDto getHiringList(CustomUserDetails userDetails, Long productId){
-//        User user = userRepository.findByEmail(userDetails.getEmail())
-//                .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
-
-
         Product product = productRepository.findById(productId)
                         .orElseThrow(() ->new NoSuchElementException("해당 전시를 찾을 수 없습니다."));
 
-//        Hiring hiring = hiringRepository.findByProductId(product.getId());
-//        Hiring hiringInfoList = hiringRepository.findByProductId(product.getId());
 
-
-        List<HiringCall> hiringInfoList = hiringRepository.findByProductId(product.getId()); // User 파라미터를 추가해야 함
-        //.orElseThrow(() -> new WeatherNotFoundException("해당 아이디로 조회되는 날씨 객체가 존재하지 않습니다."));
+        List<HiringDetailResponseDto> hiringInfoList = hiringRepository.findByProductId(product.getId()); // User 파라미터를 추가해야 함
 
         HiringListResponseDto result = new HiringListResponseDto(hiringInfoList);
 
-//        WeatherMonthlyResponseDto result = new WeatherMonthlyResponseDto(weatherList);
-
-
-//        System.out.println(user.getId()+user.getId().getClass().getName());
-//        System.out.println(userDetails.getUser().getId()+userDetails.getUser().getId().getClass().getName());
-//        Artist artist = artistRepository.findByUserId(userDetails.getUser().getId());
 
         return result;
     }
 
     @Transactional
-    public HiringCall getHiringInfo(CustomUserDetails userDetails, Long hiringId){
+    public HiringDetailResponseDto getHiringInfo(CustomUserDetails userDetails, Long hiringId){
         User user = userRepository.findByEmail(userDetails.getEmail())
                 .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
 
-//
-//        Product product = productRepository.findById(hiringId)
-//                .orElseThrow(() ->new NoSuchElementException("해당 전시를 찾을 수 없습니다."));
+
 
         Hiring hiring = hiringRepository.findById(hiringId)
                 .orElseThrow(() ->new NoSuchElementException("해당 제안를 찾을 수 없습니다."));
 
-        HiringCall hiringCall = new HiringCall(hiring);
-//        Hiring hiringInfoList = hiringRepository.findByProductId(product.getId());
-
-
-
-
-//        System.out.println(user.getId()+user.getId().getClass().getName());
-//        System.out.println(userDetails.getUser().getId()+userDetails.getUser().getId().getClass().getName());
-//        Artist artist = artistRepository.findByUserId(userDetails.getUser().getId());
-
-        return hiringCall;
+        return HiringDetailResponseDto.builder()
+                .comment(hiring.getComment())
+                .company(hiring.getCompany())
+                .contact(hiring.getContact())
+                .comment(hiring.getComment())
+                .localDateTime(hiring.getLocalDateTime()) //그냥 현재로
+                .build();
     }
 
 
