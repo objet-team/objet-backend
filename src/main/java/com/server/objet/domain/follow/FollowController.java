@@ -17,7 +17,6 @@ public class FollowController {
     @GetMapping("/{artistId}") //내 계정
     @Operation(summary = "팔로우", description = "토큰이 필요합니다.")
     public ResponseEntity<String> Follow(
-            @PathVariable Long userId,
             @PathVariable Long artistId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(followService.follow(userDetails,artistId)+"작가님을 팔로우하였습니다.");
@@ -26,7 +25,6 @@ public class FollowController {
     @DeleteMapping("/{artistId}") //내 계정
     @Operation(summary = "팔로우", description = "토큰이 필요합니다.")
     public ResponseEntity<String> UnFollow(
-            @PathVariable Long userId,
             @PathVariable Long artistId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
         followService.unFollow(userDetails,artistId);
