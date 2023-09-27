@@ -8,6 +8,7 @@ import com.server.objet.global.dto.ContentData.SpaceContent;
 import com.server.objet.global.dto.ContentData.TextContent;
 import com.server.objet.domain.product.dto.req.ProductInfo;
 import com.server.objet.global.entity.*;
+import com.server.objet.global.enums.GoodsType;
 import com.server.objet.global.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +30,9 @@ public class GoodsService {
     private final GoodsDetailRepository goodsDetailRepository;
     private final UserRepository userRepository;
 
-    public MainPageGoods getPopularGoods(String type) {
+    public MainPageGoods getPopularGoods(GoodsType goodsType) {
         List<MainPageGoodsInfo> mainPageGoodsInfos = new ArrayList<>();
-        List<Goods> popularGoods = goodsRepository.findTop12ByTypeOrderByUploadAtDesc(type);
+        List<Goods> popularGoods = goodsRepository.findTop12ByTypeOrderByUploadAtDesc(goodsType.toString());
 
         Integer cnt = 1;
         for(Goods goods: popularGoods) {
@@ -44,6 +45,7 @@ public class GoodsService {
                     .goodsId(goods.getId())
                     .title(goods.getName())
                     .category(goods.getType())
+                    .price(goods.getPrice())
                     .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
                     .artistPicPath(artist.getProfilePicUrl())
                     .thumbNailPath(goodsDetail.getUrl())
@@ -74,6 +76,7 @@ public class GoodsService {
                 .name(goods.getName())
                 .category(goods.getType())
                 .description(goods.getDescription())
+                .price(goods.getPrice())
                 .artistName(artist.getUser().getName())
                 .artistInfo(artist.getComment())
                 .artistPicPath(artist.getProfilePicUrl())
@@ -92,6 +95,7 @@ public class GoodsService {
                 .name(goodsInfo.getTitle())
                 .description(goodsInfo.getDescription())
                 .type(goodsInfo.getCategory())
+                .price(goodsInfo.getPrice())
                 .uploadAt(LocalDateTime.now())
                 .build();
         goodsRepository.save(goods);
