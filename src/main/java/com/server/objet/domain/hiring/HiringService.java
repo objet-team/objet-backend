@@ -24,6 +24,7 @@ public class HiringService {
     private final UserRepository userRepository;
 
     private final ArtistRepository artistRepository;
+
     private final ProductRepository productRepository;
 
     private final HiringRepository hiringRepository;
@@ -58,7 +59,6 @@ public class HiringService {
                 .comment(hiringRequestDto.comment)
                 .company(hiringRequestDto.company)
                 .contact(hiringRequestDto.contact)
-                .comment(hiringRequestDto.comment)
                 .localDateTime(currentDateTime) //그냥 현재로
                 .build();
     }
@@ -93,10 +93,7 @@ public class HiringService {
                 .comment(hiring.getComment())
                 .company(hiring.getCompany())
                 .contact(hiring.getContact())
-                .comment(hiring.getComment())
                 .localDateTime(hiring.getLocalDateTime()) //그냥 현재로
                 .build();
     }
-
-
 }
