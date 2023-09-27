@@ -1,5 +1,6 @@
 package com.server.objet.domain.product;
 
+import com.server.objet.domain.auth.CustomUserDetails;
 import com.server.objet.domain.product.dto.Content.ImageContent;
 import com.server.objet.domain.product.dto.Content.SpaceContent;
 import com.server.objet.domain.product.dto.Content.TextContent;
@@ -8,10 +9,7 @@ import com.server.objet.domain.product.dto.res.MainPageProductInfo;
 import com.server.objet.domain.product.dto.res.MainPageProducts;
 import com.server.objet.domain.product.dto.ProductDetail;
 import com.server.objet.domain.product.dto.res.RegisterProductResult;
-import com.server.objet.global.entity.Artist;
-import com.server.objet.global.entity.Content;
-import com.server.objet.global.entity.Like;
-import com.server.objet.global.entity.Product;
+import com.server.objet.global.entity.*;
 import com.server.objet.global.repository.*;
 
 import jakarta.transaction.Transactional;
@@ -131,8 +129,9 @@ public class ProductService {
         return productDetail;
     }
 
-    public RegisterProductResult doRegisterProduct(ProductInfo productInfo, Long artistId) {
-        // 유저는 jwt로 resolve 해서 받아야함
+    public RegisterProductResult doRegisterProduct(ProductInfo productInfo, CustomUserDetails userDetails) {
+        User user = userDetails.getUser();
+        Long artistId = artistRepository.findByUser(user).get().getId();
 
         Product product = Product.builder()
                 .artistId(artistId)
