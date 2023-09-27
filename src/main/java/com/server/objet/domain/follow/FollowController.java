@@ -14,7 +14,7 @@ import static com.server.objet.global.RequestURI.FOLLOW_URI;
 @RequiredArgsConstructor
 public class FollowController {
     private final FollowService followService;
-    @GetMapping("/{userId}/{artistId}") //내 계정
+    @GetMapping("/{artistId}") //내 계정
     @Operation(summary = "팔로우", description = "토큰이 필요합니다.")
     public ResponseEntity<String> Follow(
             @PathVariable Long userId,
@@ -23,7 +23,7 @@ public class FollowController {
         return ResponseEntity.ok(followService.follow(userDetails,artistId)+"작가님을 팔로우하였습니다.");
     }
 
-    @DeleteMapping("/{userId}/{artistId}") //내 계정
+    @DeleteMapping("/{artistId}") //내 계정
     @Operation(summary = "팔로우", description = "토큰이 필요합니다.")
     public ResponseEntity<String> UnFollow(
             @PathVariable Long userId,
