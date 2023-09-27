@@ -42,16 +42,14 @@ public class HiringService {
 
         LocalDateTime currentDateTime = LocalDateTime.now();
 
-
         Hiring hiring = Hiring.builder()
                 .company(hiringRequestDto.company)
                 .contact(hiringRequestDto.contact)
                 .comment(hiringRequestDto.comment)
                 .localDateTime(currentDateTime) //그냥 현재로
                 .userId(user.getId())
-                .productId(productId)
+                .productId(product.getId())
                 .build();
-
 
         hiringRepository.save(hiring);
 
@@ -83,8 +81,6 @@ public class HiringService {
     public HiringDetailResponseDto getHiringInfo(CustomUserDetails userDetails, Long hiringId){
         User user = userRepository.findByEmail(userDetails.getEmail())
                 .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
-
-
 
         Hiring hiring = hiringRepository.findById(hiringId)
                 .orElseThrow(() ->new NoSuchElementException("해당 제안를 찾을 수 없습니다."));
