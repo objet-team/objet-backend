@@ -1,6 +1,5 @@
 package com.server.objet.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.objet.domain.auth.CustomUserDetailsService;
 import com.server.objet.domain.auth.jwt.JwtAuthenticationFilter;
 import com.server.objet.domain.auth.jwt.JwtService;
@@ -34,14 +33,11 @@ public class SecurityConfiguration {
     private final CustomUserDetailsService customUserDetailsService;
     private final UserRepository userRepository;
     private final JwtService jwtService;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-
-        http
-                .formLogin(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
+        http.formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(
@@ -51,6 +47,7 @@ public class SecurityConfiguration {
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
+        http.cors(httpSecurityCorsConfigurer -> corsConfigurationSource());
 
         return http.build();
     }
@@ -68,7 +65,7 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("*"));
