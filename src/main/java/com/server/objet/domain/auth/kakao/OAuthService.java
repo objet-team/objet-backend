@@ -39,6 +39,9 @@ public class OAuthService {
     @Value("${oauth.kakao.url.redirect}")
     private String redirectUri;
 
+    @Value("${oauth.kakao.url.redirect-local}")
+    private String redirectUriLocal;
+
     private final RestTemplate restTemplate;
 
     public String requestAccessToken(String authorizationCode) {
@@ -53,7 +56,8 @@ public class OAuthService {
         body.add("code",authorizationCode);
         body.add("grant_type", GRANT_TYPE);
         body.add("client_id", clientId);
-        body.add("redirect_uri",redirectUri);
+//        body.add("redirect_uri",redirectUri);
+        body.add("redirect_uri",redirectUriLocal);
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body,httpHeaders);
 
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());

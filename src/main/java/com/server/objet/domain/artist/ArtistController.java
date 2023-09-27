@@ -37,7 +37,8 @@ public class ArtistController {
 //    }
 
     @PostMapping("/info")
-    @Operation(summary = "나의 아티스트 정보 등록", description = "토큰이 필요합니다. 현재 프로필 이미지 업로드는 지원하지 않습니다.")
+    @Operation(summary = "나의 아티스트 정보 등록", description = "토큰이 필요합니다. 현재 프로필 이미지 업로드는 지원하지 않습니다. " +
+            "카테고리 enum은 UX_UI, GRAPHIC_DESIGN, VIDEO_AND_MOTION_GRAPHICS, ILLUSTRATION, CHARACTER_DESIGN, PHOTOGRAPHY, CRAFTS, CERAMICS_AND_GLASS 입니다.")
     public ResponseEntity<ArtistInfoResponseDto> ArtistRegister(@RequestBody @Valid ArtistInfoRequestDto artistInfoRequestDto,
                                                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(artistService.setNewInfo(artistInfoRequestDto, userDetails));
@@ -59,7 +60,8 @@ public class ArtistController {
     }
 
     @PatchMapping("/info")
-    @Operation(summary = "나의 아티스트 정보 수정", description = "토큰이 필요합니다. 현재 프로필 이미지는 지원하지 않습니다.")
+    @Operation(summary = "나의 아티스트 정보 수정", description = "토큰이 필요합니다. 현재 프로필 이미지는 지원하지 않습니다. " +
+            "카테고리 enum은 UX_UI, GRAPHIC_DESIGN, VIDEO_AND_MOTION_GRAPHICS, ILLUSTRATION, CHARACTER_DESIGN, PHOTOGRAPHY, CRAFTS, CERAMICS_AND_GLASS 입니다.")
     public ResponseEntity<ArtistInfoResponseDto> ChangeInfo(@RequestBody @Valid ArtistInfoRequestDto artistInfoRequestDto,
                                                             @AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(artistService.chagneMyInfo(artistInfoRequestDto, userDetails));
