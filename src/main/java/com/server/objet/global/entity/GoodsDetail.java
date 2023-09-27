@@ -1,15 +1,13 @@
 package com.server.objet.global.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class GoodsDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

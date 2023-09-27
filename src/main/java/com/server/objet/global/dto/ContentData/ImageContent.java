@@ -1,6 +1,5 @@
-package com.server.objet.domain.product.dto.Content;
+package com.server.objet.global.dto.ContentData;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +8,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class ImageContent {
-    private Long productId;
+    private Long id;
     private String type;
     private Integer order;
     private String url;

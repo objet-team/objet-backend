@@ -1,9 +1,9 @@
 package com.server.objet.domain.product;
 
 import com.server.objet.domain.auth.CustomUserDetails;
-import com.server.objet.domain.product.dto.Content.ImageContent;
-import com.server.objet.domain.product.dto.Content.SpaceContent;
-import com.server.objet.domain.product.dto.Content.TextContent;
+import com.server.objet.global.dto.ContentData.ImageContent;
+import com.server.objet.global.dto.ContentData.SpaceContent;
+import com.server.objet.global.dto.ContentData.TextContent;
 import com.server.objet.domain.product.dto.req.ProductInfo;
 import com.server.objet.domain.product.dto.res.MainPageProductInfo;
 import com.server.objet.domain.product.dto.res.MainPageProducts;
@@ -136,7 +136,7 @@ public class ProductService {
         Product product = Product.builder()
                 .artistId(artistId)
                 .title(productInfo.getTitle())
-                .desc(productInfo.getDetail())
+                .desc(productInfo.getDescription())
                 .category(productInfo.getCategory())
                 .uploadAt(LocalDateTime.now())
                 .build();
@@ -169,7 +169,7 @@ public class ProductService {
             String type = content.getType();
             if (type.equals("image")) {
                 ImageContent imageContent = ImageContent.builder()
-                        .productId(content.getProductId())
+                        .id(content.getProductId())
                         .type(content.getType())
                         .order(content.getContentOrder())
                         .url(content.getUrl())
@@ -180,7 +180,7 @@ public class ProductService {
                 resultContents.add(imageContent);
             } else if (type.equals("text")) {
                 TextContent textContent = TextContent.builder()
-                        .productId(content.getProductId())
+                        .id(content.getProductId())
                         .type(content.getType())
                         .order(content.getContentOrder())
                         .sizeType(content.getSizeType())
@@ -190,7 +190,7 @@ public class ProductService {
                 resultContents.add(textContent);
             } else if (type.equals("space")) {
                 SpaceContent spaceContent = SpaceContent.builder()
-                        .productId(content.getProductId())
+                        .id(content.getProductId())
                         .type(content.getType())
                         .order(content.getContentOrder())
                         .build();

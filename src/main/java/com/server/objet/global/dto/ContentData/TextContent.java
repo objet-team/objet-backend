@@ -1,4 +1,4 @@
-package com.server.objet.domain.product.dto.Content;
+package com.server.objet.global.dto.ContentData;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class TextContent {
-    private Long productId;
+    private Long id;
     private String type;
     private Integer order;
     private String sizeType;
