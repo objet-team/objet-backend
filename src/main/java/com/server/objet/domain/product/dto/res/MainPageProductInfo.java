@@ -13,6 +13,7 @@ public class MainPageProductInfo {
     private String title;
     private String category;
     private Long like;
+    private Long artistId;
     private String artistName;
     private String artistPicPath;
     private String thumbNailPath;
