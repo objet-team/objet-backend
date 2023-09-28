@@ -27,7 +27,7 @@ public class Artist {
     private User user;
 
     @OneToMany
-    @JoinColumn(name = "follow_id")
+    @JoinColumn(name = "artist_id")
     private Collection<Follow> follows;
 
     @OneToMany

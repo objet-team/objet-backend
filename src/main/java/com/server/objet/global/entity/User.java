@@ -49,7 +49,7 @@ public class User implements UserDetails {
     private String refreshToken;
 
     @OneToMany
-    @JoinColumn(name = "follow_id")
+    @JoinColumn(name = "user_id")
     private Collection<Follow> follows;
 
     @Builder

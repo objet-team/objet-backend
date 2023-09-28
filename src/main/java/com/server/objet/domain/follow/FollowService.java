@@ -31,10 +31,11 @@ public class FollowService {
 
         //테이블에 없으면 추가
         Follow followEntity = followingRepository.findByUserIdAndArtistId(user.getId(), artistId)
-                .orElseGet(() -> saveFollow(userDetails, artistId)
+                .orElseGet(
+                        () -> saveFollow(userDetails, artistId)
                 );
 
-        return artistRepository.findById(artistId).get().getUser().getUsername();
+        return artistRepository.findById(followEntity.getArtistId()).get().getUser().getUsername();
     }
 
     private Follow saveFollow(CustomUserDetails userDetails, Long artistId) {
@@ -42,29 +43,30 @@ public class FollowService {
                 .artistId(artistId)
                 .userId(userDetails.getUser().getId())
                 .build();
-        followingRepository.save(follow);
+        followingRepository.saveAndFlush(follow);
+        System.out.println("팔로우 디비에 저장!");
 
         return follow;
     }
 
 
-    @Transactional
     public String unFollow(CustomUserDetails userDetails, Long artistId) {
         User user = userRepository.findByEmail(userDetails.getEmail())
                 .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
 
 
-        //테이블에 없으면 에러
+        //테이블에 없으면 에러는 되는데
+        //TODO 예외는 터짐 ㅠㅜㅠㅜ
         Follow followEntity = followingRepository.findByUserIdAndArtistId(user.getId(), artistId)
                 .orElseThrow(() ->new UsernameNotFoundException("해당 작가를 팔로우 하지 않은 상태입니다."));
-//
+//        String artistName = artistRepository.findById(followEntity.getArtistId()).get().getUser().getUsername();
+
 //        Follow follow = Follow.builder()
 //                .artistId(artistId)
 //                .userId(userDetails.getUser().getId())
 //                .build();
         followingRepository.delete(followEntity);
 
-        Artist artist= artistRepository.findById(artistId).get();
-        return artist.getUser().getUsername();
+        return "팔로우 취소";
     }
 }

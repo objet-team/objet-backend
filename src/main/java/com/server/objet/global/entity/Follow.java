@@ -1,13 +1,12 @@
 package com.server.objet.global.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Follow {
     @Id
@@ -20,11 +19,4 @@ public class Follow {
 
     @Column(name = "artist_id")
     private Long artistId;
-
-
-    @Builder
-    public Follow(Long userId, Long artistId){
-        this.artistId = artistId;
-        this.userId =userId;
-    }
 }
