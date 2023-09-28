@@ -1,17 +1,17 @@
 package com.server.objet.global.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.joda.time.DateTime;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Goods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +24,17 @@ public class Goods {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "goods_type")
-    private String Type;
+    private String type;
 
     @Column(name = "price")
     private Long price;
+
+    @Column(name = "upload_at")
+    private LocalDateTime uploadAt;
 
     @OneToMany
     @JoinColumn(name = "goods_id")

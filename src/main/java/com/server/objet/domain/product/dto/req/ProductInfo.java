@@ -13,6 +13,6 @@ public class ProductInfo {
 
     private String title;
     private String category;
-    private String detail;
+    private String description;
     private List<Object> contents;
 }

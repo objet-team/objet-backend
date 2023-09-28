@@ -12,7 +12,7 @@ public class MainPageGoodsInfo {
     private Long goodsId;
     private String title;
     private String category;
-    private Long like;
+    private Long price;
     private String artistName;
     private String artistPicPath;
     private String thumbNailPath;

@@ -9,12 +9,12 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
-public class GoodsDetail {
+public class GoodsDetailInfo {
     private Long goodsId;
-    private String title;
+    private String name;
     private String category;
-    private String detail;
-    private Long like;
+    private String description;
+    private Long price;
     private String artistName;
     private String artistInfo;
     private String artistPicPath;
