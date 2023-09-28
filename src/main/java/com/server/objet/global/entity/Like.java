@@ -3,8 +3,6 @@ package com.server.objet.global.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @Table(name = "like_table")
@@ -18,14 +16,10 @@ public class Like {
     @Column(name = "like_id")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "p_idx")
-    private Product product;
+    @Column(name = "product_id")
+    private Long productId;
 
-    @Column
-    private Long count;
-
-    @Column(name = "create_at")
-    private LocalDateTime createAt;
+    @Column(name = "user_id")
+    private Long userId;
 
 }

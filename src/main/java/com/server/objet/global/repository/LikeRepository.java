@@ -13,5 +13,4 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     List<Like> findTop20ByOrderByCountDesc();
 
     Optional<Like> findByProduct(Product product);
-    List<Like> findTop8ByCreateAtBetweenOrderByCount(LocalDateTime startUploadAt, LocalDateTime endUploadAt);
 }

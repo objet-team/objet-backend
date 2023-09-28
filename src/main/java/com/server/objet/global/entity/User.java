@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 @Entity
@@ -47,6 +48,10 @@ public class User implements UserDetails {
 
     //    @Column(nullable = false)
     private String refreshToken;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Like> likes;
 
     @Builder
     public User(String email, Role role, String name, OAuthProvider oAuthProvider) {
