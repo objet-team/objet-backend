@@ -1,0 +1,66 @@
+package com.server.objet.domain.follow;
+
+import com.server.objet.domain.auth.CustomUserDetails;
+import com.server.objet.global.entity.Artist;
+import com.server.objet.global.entity.Follow;
+import com.server.objet.global.entity.User;
+import com.server.objet.global.repository.ArtistRepository;
+import com.server.objet.global.repository.FollowingRepository;
+import com.server.objet.global.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class FollowService {
+
+    private final ArtistRepository artistRepository;
+    private final UserRepository userRepository;
+    private final FollowingRepository followingRepository;
+
+
+    @Transactional
+    public String follow(CustomUserDetails userDetails, Long artistId) {
+        User user = userRepository.findByEmail(userDetails.getEmail())
+                .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
+
+
+        //Todo 있으면 안하는 걸로
+        //테이블에 없으면 추가
+        Follow followEntity = followingRepository.findByUserIdAndArtistId(user.getId(), artistId)
+                .orElseGet(
+                        () -> saveFollow(userDetails, artistId)
+                );
+
+        return artistRepository.findById(followEntity.getArtistId()).get().getUser().getUsername();
+    }
+
+    private Follow saveFollow(CustomUserDetails userDetails, Long artistId) {
+        Follow follow = Follow.builder()
+                .artistId(artistId)
+                .userId(userDetails.getUser().getId())
+                .build();
+        followingRepository.saveAndFlush(follow);
+        System.out.println("팔로우 디비에 저장!");
+
+        return follow;
+    }
+
+
+    public String unFollow(CustomUserDetails userDetails, Long artistId) {
+        User user = userRepository.findByEmail(userDetails.getEmail())
+                .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
+
+
+        //테이블에 없으면 에러는 되는데
+        //TODO 누구를 언팔로우 했는지 이름 반환되게 수정
+        Follow followEntity = followingRepository.findByUserIdAndArtistId(user.getId(), artistId)
+                .orElseThrow(() ->new UsernameNotFoundException("해당 작가를 팔로우 하지 않은 상태입니다."));
+
+        followingRepository.delete(followEntity);
+
+        return "팔로우 취소";
+    }
+}

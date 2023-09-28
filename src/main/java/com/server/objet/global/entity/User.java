@@ -53,6 +53,10 @@ public class User implements UserDetails {
     @JoinColumn(name = "user_id")
     private List<Like> likes;
 
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private Collection<Follow> follows;
+
     @Builder
     public User(String email, Role role, String name, OAuthProvider oAuthProvider) {
         this.email = email;
