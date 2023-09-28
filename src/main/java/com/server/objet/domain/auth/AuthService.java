@@ -25,8 +25,8 @@ public class AuthService {
     private final UserRepository userRepository;
 
     @Transactional
-    public LoginResponseDto login(String authorizationCode){
-        String accessToken = oAuthService.requestAccessToken(authorizationCode);
+    public LoginResponseDto login(String authorizationCode, Boolean isLocal){
+        String accessToken = oAuthService.requestAccessToken(authorizationCode,isLocal);
         KakaoInfoResponse kakaoInfoResponse =oAuthService.requestOauthInfo(accessToken);
         String email=kakaoInfoResponse.getKakaoAccount().getEmail();
         System.out.println(email);
@@ -70,4 +70,20 @@ public class AuthService {
                 .followingNum(user.getFollows().size())
                 .build();
     }
+
+//    @Transactional
+//    public MyInfoResponseDto changeInfo(CustomUserDetails userDetails, MyInfoChangeRequestDto myInfoChangeRequestDto){
+//        User user = userRepository.findByEmail(userDetails.getEmail())
+//                .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
+//
+//        user.update(myInfoChangeRequestDto.getName(),myInfoChangeRequestDto.getProfilePicUrl());
+//
+//        //Todo 프로필 이미지 넣어야함
+//        return  MyInfoResponseDto.builder()
+//                .name(myInfoChangeRequestDto.getName())
+//                .email(user.getEmail()) //안바뀜
+//                .followingNum(user.getFollows().size()) //안바뀜
+//                .profilePicUrl(myInfoChangeRequestDto.getProfilePicUrl())
+//                .build();
+//    }
 }

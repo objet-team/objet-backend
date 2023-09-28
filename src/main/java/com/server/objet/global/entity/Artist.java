@@ -52,8 +52,9 @@ public class Artist {
         this.category = category;
     }
 
-    public void update(String comment, List<Category> category){
+    public void update(String comment, List<Category> category, String profilePicUrl){
         this.comment = comment;
         this.category = category;
+        this.profilePicUrl = profilePicUrl;
     }
 }

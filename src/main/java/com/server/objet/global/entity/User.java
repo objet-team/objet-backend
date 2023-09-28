@@ -27,9 +27,6 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
-//    @JsonIgnore
-//    private String authorizationCode;
-
     @Column(nullable = false)
     private String name;
 
@@ -65,7 +62,7 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public void update(String accessToken, String refreshToken){
+    public void update( String name, String refreshToken){
         this.accessToken = accessToken;
         this.refreshToken =refreshToken;
     }

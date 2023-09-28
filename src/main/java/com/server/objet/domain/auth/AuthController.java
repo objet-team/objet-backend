@@ -22,14 +22,21 @@ public class AuthController {
 
     @PostMapping("/kakao")
     @Synchronized
-    @Operation(summary = "카카오 로그인", description = "kakao authCode를 넣으면 JWT AccessToken이 나옵니다.")
+    @Operation(summary = "카카오 로그인", description = "kakao authCode를 넣으면 JWT AccessToken이 나옵니다. isLocal은 true이면 로컬 주소입니다.")
     public synchronized ResponseEntity<?> loginKakao(@RequestBody KakaoLoginRequest kakaoLoginRequest) {
-        return ResponseEntity.ok(authService.login(kakaoLoginRequest.getAuthorizationCode()));
+        return ResponseEntity.ok(authService.login(kakaoLoginRequest.getAuthorizationCode(), kakaoLoginRequest.getIsLocal()));
     }
 
     @GetMapping("/user/info")
-    @Operation(summary = "유저 마이페이지", description = "토큰이 필요합니다. 팔로우하는 작가 수와 프로필 이미지는 현재 제공하지 않습니다.")
+    @Operation(summary = "유저 마이페이지", description = "토큰이 필요합니다. 프로필 이미지는 현재 제공하지 않습니다.")
     public ResponseEntity<MyInfoResponseDto> MyInfo(@AuthenticationPrincipal CustomUserDetails userDetail) {
         return ResponseEntity.ok(authService.getMyInfo(userDetail));
     }
+//
+//    @PatchMapping("/user/info")
+//    @Operation(summary = "유저 마이페이지", description = "토큰이 필요합니다. 프로필 이미지는 현재 제공하지 않습니다.")
+//    public ResponseEntity<MyInfoResponseDto> ChangeInfo(@AuthenticationPrincipal CustomUserDetails userDetail,
+//                                                        @RequestBody MyInfoChangeRequestDto myInfoChangeRequestDto) {
+//        return ResponseEntity.ok(authService.changeInfo(userDetail, myInfoChangeRequestDto));
+//    }
 }

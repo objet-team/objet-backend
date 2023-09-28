@@ -7,5 +7,7 @@ import lombok.Data;
 public class KakaoLoginRequest {
     private String authorizationCode;
 
+    private Boolean isLocal;
+
 
 }

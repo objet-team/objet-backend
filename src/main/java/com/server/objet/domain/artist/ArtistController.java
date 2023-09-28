@@ -47,8 +47,8 @@ public class ArtistController {
     @PatchMapping("/info")
     @Operation(summary = "나의 아티스트 정보 수정", description = "토큰이 필요합니다. 현재 프로필 이미지는 지원하지 않습니다. " +
             "카테고리 enum은 UX_UI, GRAPHIC_DESIGN, VIDEO_AND_MOTION_GRAPHICS, ILLUSTRATION, CHARACTER_DESIGN, PHOTOGRAPHY, CRAFTS, CERAMICS_AND_GLASS 입니다.")
-    public ResponseEntity<MyArtistInfoResponseDto> ChangeInfo(@RequestBody @Valid ArtistInfoRequestDto artistInfoRequestDto,
+    public ResponseEntity<MyArtistInfoResponseDto> ChangeInfo(@RequestBody @Valid ArtistInfoChangeRequest artistInfoChangeRequest,
                                                               @AuthenticationPrincipal CustomUserDetails userDetails) {
-        return ResponseEntity.ok(artistService.chagneMyInfo(artistInfoRequestDto, userDetails));
+        return ResponseEntity.ok(artistService.changeMyInfo(artistInfoChangeRequest, userDetails));
     }
 }

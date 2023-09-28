@@ -9,7 +9,7 @@ import java.util.List;
 public class MyInfoResponseDto {
 
     private final String name;
-    private final String profile;
     private final String email;
+    private final String profilePicUrl;
     private final int followingNum;
 }
