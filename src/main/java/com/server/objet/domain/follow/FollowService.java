@@ -31,13 +31,13 @@ public class FollowService {
 
         //테이블에 없으면 추가
         Follow followEntity = followingRepository.findByUserIdAndArtistId(user.getId(), artistId)
-                .orElseGet(() -> saveFollowList(userDetails, artistId)
+                .orElseGet(() -> saveFollow(userDetails, artistId)
                 );
 
         return artistRepository.findById(artistId).get().getUser().getUsername();
     }
 
-    private Follow saveFollowList(CustomUserDetails userDetails, Long artistId) {
+    private Follow saveFollow(CustomUserDetails userDetails, Long artistId) {
         Follow follow = Follow.builder()
                 .artistId(artistId)
                 .userId(userDetails.getUser().getId())
@@ -57,7 +57,7 @@ public class FollowService {
         //테이블에 없으면 에러
         Follow followEntity = followingRepository.findByUserIdAndArtistId(user.getId(), artistId)
                 .orElseThrow(() ->new UsernameNotFoundException("해당 작가를 팔로우 하지 않은 상태입니다."));
-
+//
 //        Follow follow = Follow.builder()
 //                .artistId(artistId)
 //                .userId(userDetails.getUser().getId())
