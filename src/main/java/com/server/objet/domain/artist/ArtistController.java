@@ -21,20 +21,6 @@ public class ArtistController {
 
     private final ArtistService artistService;
 
-//    @GetMapping("/{id}")
-//    public MainPageProducts PopularProducts() {
-//        return productService.getPopularProducts();
-//    }
-//
-//    @GetMapping("/new")
-//    public MainPageProducts NewProducts() {
-//        return productService.getNewProducts();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ProductDetail getProduct(@PathVariable("id") Long id) {
-//        return productService.getProductDetail(id);
-//    }
 
     @PostMapping("/info")
     @Operation(summary = "나의 아티스트 정보 등록", description = "토큰이 필요합니다. 현재 프로필 이미지 업로드는 지원하지 않습니다. " +

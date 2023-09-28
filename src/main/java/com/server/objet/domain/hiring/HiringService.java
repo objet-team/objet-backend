@@ -24,6 +24,7 @@ public class HiringService {
     private final UserRepository userRepository;
 
     private final ArtistRepository artistRepository;
+
     private final ProductRepository productRepository;
 
     private final HiringRepository hiringRepository;
@@ -41,16 +42,14 @@ public class HiringService {
 
         LocalDateTime currentDateTime = LocalDateTime.now();
 
-
         Hiring hiring = Hiring.builder()
                 .company(hiringRequestDto.company)
                 .contact(hiringRequestDto.contact)
                 .comment(hiringRequestDto.comment)
                 .localDateTime(currentDateTime) //그냥 현재로
                 .userId(user.getId())
-                .productId(productId)
+                .productId(product.getId())
                 .build();
-
 
         hiringRepository.save(hiring);
 
@@ -58,7 +57,6 @@ public class HiringService {
                 .comment(hiringRequestDto.comment)
                 .company(hiringRequestDto.company)
                 .contact(hiringRequestDto.contact)
-                .comment(hiringRequestDto.comment)
                 .localDateTime(currentDateTime) //그냥 현재로
                 .build();
     }
@@ -84,8 +82,6 @@ public class HiringService {
         User user = userRepository.findByEmail(userDetails.getEmail())
                 .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
 
-
-
         Hiring hiring = hiringRepository.findById(hiringId)
                 .orElseThrow(() ->new NoSuchElementException("해당 제안를 찾을 수 없습니다."));
 
@@ -93,10 +89,7 @@ public class HiringService {
                 .comment(hiring.getComment())
                 .company(hiring.getCompany())
                 .contact(hiring.getContact())
-                .comment(hiring.getComment())
                 .localDateTime(hiring.getLocalDateTime()) //그냥 현재로
                 .build();
     }
-
-
 }

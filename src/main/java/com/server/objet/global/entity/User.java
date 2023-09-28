@@ -48,6 +48,10 @@ public class User implements UserDetails {
     //    @Column(nullable = false)
     private String refreshToken;
 
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private Collection<Follow> follows;
+
     @Builder
     public User(String email, Role role, String name, OAuthProvider oAuthProvider) {
         this.email = email;
