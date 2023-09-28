@@ -44,28 +44,30 @@ public class OAuthService {
 
     private final RestTemplate restTemplate;
 
-    public String requestAccessToken(String authorizationCode) {
+    public String requestAccessToken(String authorizationCode, boolean isLocal) {
+        // isLocal 매개변수를 통해 로컬 또는 배포 주소를 선택합니다.
+        String redirect = isLocal ? redirectUriLocal : redirectUri;
 
         String tokenUri = authUrl + "/oauth/token";
 
-        HttpHeaders httpHeaders=new HttpHeaders();
+        HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         httpHeaders.add("Accept", "application/json");
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("code",authorizationCode);
+        body.add("code", authorizationCode);
         body.add("grant_type", GRANT_TYPE);
         body.add("client_id", clientId);
-//        body.add("redirect_uri",redirectUri);
-        body.add("redirect_uri",redirectUriLocal);
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body,httpHeaders);
+        body.add("redirect_uri", redirect); // 선택한 리다이렉션 주소를 사용합니다.
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, httpHeaders);
 
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
         KakaoTokens response = restTemplate.postForObject(tokenUri, request, KakaoTokens.class);
         assert response != null;
         return response.getAccessToken();
-
     }
+
 
     public KakaoInfoResponse requestOauthInfo(String accessToken) {
         String url = apiUrl + "/v2/user/me";

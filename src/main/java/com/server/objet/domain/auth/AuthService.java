@@ -25,8 +25,8 @@ public class AuthService {
     private final UserRepository userRepository;
 
     @Transactional
-    public LoginResponseDto login(String authorizationCode){
-        String accessToken = oAuthService.requestAccessToken(authorizationCode);
+    public LoginResponseDto login(String authorizationCode, Boolean isLocal){
+        String accessToken = oAuthService.requestAccessToken(authorizationCode,isLocal);
         KakaoInfoResponse kakaoInfoResponse =oAuthService.requestOauthInfo(accessToken);
         String email=kakaoInfoResponse.getKakaoAccount().getEmail();
         System.out.println(email);

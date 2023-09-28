@@ -22,9 +22,9 @@ public class AuthController {
 
     @PostMapping("/kakao")
     @Synchronized
-    @Operation(summary = "카카오 로그인", description = "kakao authCode를 넣으면 JWT AccessToken이 나옵니다.")
+    @Operation(summary = "카카오 로그인", description = "kakao authCode를 넣으면 JWT AccessToken이 나옵니다. isLocal은 true이면 로컬 주소입니다.")
     public synchronized ResponseEntity<?> loginKakao(@RequestBody KakaoLoginRequest kakaoLoginRequest) {
-        return ResponseEntity.ok(authService.login(kakaoLoginRequest.getAuthorizationCode()));
+        return ResponseEntity.ok(authService.login(kakaoLoginRequest.getAuthorizationCode(), kakaoLoginRequest.getIsLocal()));
     }
 
     @GetMapping("/user/info")
