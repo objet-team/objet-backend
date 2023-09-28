@@ -83,17 +83,17 @@ public class ArtistService {
                 .build();
     }
     @Transactional
-    public MyArtistInfoResponseDto chagneMyInfo(ArtistChangeInfoRequest artistChangeInfoRequest, CustomUserDetails userDetails){
+    public MyArtistInfoResponseDto changeMyInfo(ArtistInfoChangeRequest artistInfoChangeRequest, CustomUserDetails userDetails){
         Artist artist = artistRepository.findByUserId(userDetails.getUser().getId());
 
-        artist.update(artistChangeInfoRequest.getComment(), artistChangeInfoRequest.getCategoryList(), artistChangeInfoRequest.getProfilePicUrl());
+        artist.update(artistInfoChangeRequest.getComment(), artistInfoChangeRequest.getCategoryList(), artistInfoChangeRequest.getProfilePicUrl());
 
         return MyArtistInfoResponseDto
                 .builder()
                 .name(userDetails.getUser().getUsername())
-                .profilePrcUrl(artistChangeInfoRequest.getProfilePicUrl())
-                .categoryList(artistChangeInfoRequest.getCategoryList())
-                .comment(artistChangeInfoRequest.getComment())
+                .profilePrcUrl(artistInfoChangeRequest.getProfilePicUrl())
+                .categoryList(artistInfoChangeRequest.getCategoryList())
+                .comment(artistInfoChangeRequest.getComment())
                 .followerNum(artist.getFollows().size())
                 .build();
         }

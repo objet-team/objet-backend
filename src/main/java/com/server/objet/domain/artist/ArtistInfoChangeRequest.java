@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class ArtistChangeInfoRequest {
+public class ArtistInfoChangeRequest {
     String comment;
     List<Category> categoryList;
     String profilePicUrl;
