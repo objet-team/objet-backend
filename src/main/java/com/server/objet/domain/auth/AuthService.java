@@ -67,7 +67,7 @@ public class AuthService {
         return  MyInfoResponseDto.builder()
                 .name(userDetails.getUsername())
                 .email(user.getEmail())
-                .followingArtistNum(user.getFollows().size())
+                .followingNum(user.getFollows().size())
                 .build();
     }
 }

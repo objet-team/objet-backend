@@ -7,8 +7,8 @@ import java.util.Optional;
 
 
 public interface FollowingRepository extends JpaRepository<Follow, Long> {
-    Long countByUserId(Long userId);
-    Long countByArtistId(Long artistId);
+    int countByUserId(Long userId);
+    int countByArtistId(Long artistId);
 
     Optional<Follow> findByUserIdAndArtistId(Long userId, Long artistId);
 }
