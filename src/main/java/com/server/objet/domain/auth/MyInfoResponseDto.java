@@ -15,14 +15,14 @@ public class MyInfoResponseDto {
     private final String profile;
 
     @Getter
-    private final Long followingArtistNum;
+    private final int followingArtistNum;
 
     @Getter
     private final String email;
 
 
     @Builder
-    public MyInfoResponseDto(String name, String profile, Long followingArtistNum, String email){
+    public MyInfoResponseDto(String name, String profile, int followingArtistNum, String email){
         this.name = name;
         this.followingArtistNum = followingArtistNum;
         this.profile = profile;

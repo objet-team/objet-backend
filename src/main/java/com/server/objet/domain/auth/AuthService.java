@@ -63,10 +63,11 @@ public class AuthService {
         User user = userRepository.findByEmail(userDetails.getEmail())
                 .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
 
-        //Todo 팔로우하는 작가 수, 프로필 이미지 넣어야함
+        //Todo 프로필 이미지 넣어야함
         return  MyInfoResponseDto.builder()
                 .name(userDetails.getUsername())
                 .email(user.getEmail())
+                .followingArtistNum(user.getFollows().size())
                 .build();
     }
 }
