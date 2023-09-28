@@ -1,6 +1,7 @@
 package com.server.objet.domain.product;
 
 import com.server.objet.domain.auth.CustomUserDetails;
+import com.server.objet.domain.product.dto.res.LikeResult;
 import com.server.objet.global.dto.ContentData.ImageContent;
 import com.server.objet.global.dto.ContentData.SpaceContent;
 import com.server.objet.global.dto.ContentData.TextContent;
@@ -14,6 +15,7 @@ import com.server.objet.global.repository.*;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -92,6 +94,41 @@ public class ProductService {
         }
 
         return new RegisterProductResult("Success", productId);
+    }
+
+    @Transactional
+    public LikeResult addLike(CustomUserDetails userDetails, Long productId) {
+        Long userId = userDetails.getUser().getId();
+        Like like = Like.builder()
+                .productId(productId)
+                .userId(userId)
+                .build();
+        likeRepository.save(like);
+
+        updateCurrentLikeCount(userId, productId);
+
+        return new LikeResult("좋아요 추가", "성공");
+    }
+
+    @Transactional
+    public LikeResult deleteLike(CustomUserDetails userDetails, Long productId) {
+        Long userId = userDetails.getUser().getId();
+        Like like = likeRepository.findByUserIdAndProductId(userId, productId)
+                .orElseThrow(() -> new UsernameNotFoundException("해당 작품에 추가한 좋아요가 없습니다."));
+
+        likeRepository.delete(like);
+
+        updateCurrentLikeCount(userId, productId);
+
+        return new LikeResult("좋아요 취소", "성공");
+    }
+
+    @Transactional
+    private void updateCurrentLikeCount(Long userId, Long productId) {
+        Long likeCount = likeRepository.countByUserIdAndProductId(userId, productId);
+        System.out.println(likeCount);
+        Product product = productRepository.findById(productId).get();
+        product.updateLikeCount(likeCount);
     }
 
     private List<MainPageProductInfo> makeMainPageInfoByProduct(List<Product> products) {
