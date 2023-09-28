@@ -32,4 +32,11 @@ public class AuthController {
     public ResponseEntity<MyInfoResponseDto> MyInfo(@AuthenticationPrincipal CustomUserDetails userDetail) {
         return ResponseEntity.ok(authService.getMyInfo(userDetail));
     }
+//
+//    @PatchMapping("/user/info")
+//    @Operation(summary = "유저 마이페이지", description = "토큰이 필요합니다. 프로필 이미지는 현재 제공하지 않습니다.")
+//    public ResponseEntity<MyInfoResponseDto> ChangeInfo(@AuthenticationPrincipal CustomUserDetails userDetail,
+//                                                        @RequestBody MyInfoChangeRequestDto myInfoChangeRequestDto) {
+//        return ResponseEntity.ok(authService.changeInfo(userDetail, myInfoChangeRequestDto));
+//    }
 }
