@@ -2,6 +2,7 @@ package com.server.objet.domain.artist;
 
 import com.server.objet.domain.artist.dto.ArtistInfoRequestDto;
 import com.server.objet.domain.artist.dto.ArtistInfoResponseDto;
+import com.server.objet.domain.artist.dto.MyArtistInfoResponseDto;
 import com.server.objet.domain.auth.CustomUserDetails;
 import com.server.objet.global.entity.Artist;
 import com.server.objet.global.entity.User;
@@ -14,8 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class ArtistService {
@@ -24,7 +23,7 @@ public class ArtistService {
     private final FollowingRepository followingRepository;
 
     @Transactional
-    public ArtistInfoResponseDto setNewInfo(ArtistInfoRequestDto artistInfoRequestDto, CustomUserDetails userDetails) {
+    public MyArtistInfoResponseDto setNewInfo(ArtistInfoRequestDto artistInfoRequestDto, CustomUserDetails userDetails) {
         User user = userRepository.findByEmail(userDetails.getEmail())
                 .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
 
@@ -40,7 +39,7 @@ public class ArtistService {
                     .build();
 
             artistRepository.save(artist);
-            return ArtistInfoResponseDto
+            return MyArtistInfoResponseDto
                     .builder()
                     .name(user.getUsername())
                     .categoryList(artistInfoRequestDto.getCategoryList())
@@ -51,7 +50,7 @@ public class ArtistService {
     }
 
     @Transactional
-    public ArtistInfoResponseDto getMyInfo(CustomUserDetails userDetails){
+    public MyArtistInfoResponseDto getMyInfo(CustomUserDetails userDetails){
         User user = userRepository.findByEmail(userDetails.getEmail())
                 .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
         System.out.println(user.getId()+user.getId().getClass().getName());
@@ -59,14 +58,14 @@ public class ArtistService {
         Artist artist = artistRepository.findByUserId(userDetails.getUser().getId());
 
 
-        return ArtistInfoResponseDto
-                .builder()
+        return MyArtistInfoResponseDto.builder()
                 .name(user.getUsername())
-                .categoryList(artist.getCategory())
                 .comment(artist.getComment())
+                .categoryList(artist.getCategory())
+                .profilePrcUrl(artist.getProfilePicUrl())
+                .productNum(artist.getProducts().size())
                 .followingNum(followingRepository.countByUserId(user.getId()))
                 .followerNum(followingRepository.countByArtistId(artist.getId()))
-                .productNum(artist.getProducts().size())
                 .build();
     }
 
@@ -76,22 +75,25 @@ public class ArtistService {
 
         return ArtistInfoResponseDto
                 .builder()
+                .id(artistID)
                 .name(artist.getUser().getUsername())
-                .categoryList(artist.getCategory())
                 .comment(artist.getComment())
+                .categoryList(artist.getCategory())
+                .profilePrcUrl(artist.getProfilePicUrl())
                 .build();
     }
     @Transactional
-    public ArtistInfoResponseDto chagneMyInfo(ArtistInfoRequestDto artistInfoRequestDto, CustomUserDetails userDetails){
+    public MyArtistInfoResponseDto chagneMyInfo(ArtistInfoRequestDto artistInfoRequestDto, CustomUserDetails userDetails){
         Artist artist = artistRepository.findByUserId(userDetails.getUser().getId());
 
         artist.update(artistInfoRequestDto.getComment(), artistInfoRequestDto.getCategoryList());
 
-        return ArtistInfoResponseDto
+        return MyArtistInfoResponseDto
                 .builder()
                 .name(userDetails.getUser().getUsername())
                 .categoryList(artistInfoRequestDto.getCategoryList())
                 .comment(artistInfoRequestDto.getComment())
+                .followerNum(artist.getFollows().size())
                 .build();
         }
 }
