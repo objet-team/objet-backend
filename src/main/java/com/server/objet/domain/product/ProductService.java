@@ -91,8 +91,6 @@ public class ProductService {
             parseContent(content, productId);
         }
 
-        initLike(productId);
-
         return new RegisterProductResult("Success", productId);
     }
 
