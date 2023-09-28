@@ -34,8 +34,8 @@ public class ArtistService {
 
             Artist artist = Artist.builder()
                     .user(user)
-                    .comment(artistInfoRequestDto.getComment())
                     .category(artistInfoRequestDto.getCategoryList())
+                    .comment(artistInfoRequestDto.getComment())
                     .build();
 
             artistRepository.save(artist);
@@ -83,16 +83,17 @@ public class ArtistService {
                 .build();
     }
     @Transactional
-    public MyArtistInfoResponseDto chagneMyInfo(ArtistInfoRequestDto artistInfoRequestDto, CustomUserDetails userDetails){
+    public MyArtistInfoResponseDto chagneMyInfo(ArtistChangeInfoRequest artistChangeInfoRequest, CustomUserDetails userDetails){
         Artist artist = artistRepository.findByUserId(userDetails.getUser().getId());
 
-        artist.update(artistInfoRequestDto.getComment(), artistInfoRequestDto.getCategoryList());
+        artist.update(artistChangeInfoRequest.getComment(), artistChangeInfoRequest.getCategoryList(), artistChangeInfoRequest.getProfilePicUrl());
 
         return MyArtistInfoResponseDto
                 .builder()
                 .name(userDetails.getUser().getUsername())
-                .categoryList(artistInfoRequestDto.getCategoryList())
-                .comment(artistInfoRequestDto.getComment())
+                .profilePrcUrl(artistChangeInfoRequest.getProfilePicUrl())
+                .categoryList(artistChangeInfoRequest.getCategoryList())
+                .comment(artistChangeInfoRequest.getComment())
                 .followerNum(artist.getFollows().size())
                 .build();
         }
