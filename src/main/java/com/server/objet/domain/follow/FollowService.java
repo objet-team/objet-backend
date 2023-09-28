@@ -28,7 +28,6 @@ public class FollowService {
 
 
         //Todo 있으면 안하는 걸로
-
         //테이블에 없으면 추가
         Follow followEntity = followingRepository.findByUserIdAndArtistId(user.getId(), artistId)
                 .orElseGet(
@@ -56,15 +55,10 @@ public class FollowService {
 
 
         //테이블에 없으면 에러는 되는데
-        //TODO 예외는 터짐 ㅠㅜㅠㅜ
+        //TODO 누구를 언팔로우 했는지 이름 반환되게 수정
         Follow followEntity = followingRepository.findByUserIdAndArtistId(user.getId(), artistId)
                 .orElseThrow(() ->new UsernameNotFoundException("해당 작가를 팔로우 하지 않은 상태입니다."));
-//        String artistName = artistRepository.findById(followEntity.getArtistId()).get().getUser().getUsername();
 
-//        Follow follow = Follow.builder()
-//                .artistId(artistId)
-//                .userId(userDetails.getUser().getId())
-//                .build();
         followingRepository.delete(followEntity);
 
         return "팔로우 취소";

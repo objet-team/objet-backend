@@ -23,7 +23,7 @@ public class FollowController {
     }
 
     @DeleteMapping("/{artistId}")
-    @Operation(summary = "팔로우 취소", description = "{작업 중} 토큰이 필요합니다.")
+    @Operation(summary = "팔로우 취소", description = "토큰이 필요합니다.")
     public ResponseEntity<String> UnFollow(
             @PathVariable Long artistId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
