@@ -51,6 +51,7 @@ public class ProductService {
                     .title(product.getTitle())
                     .category(product.getCategory())
                     .like(like.getCount())
+                    .artistId(artist.getId())
                     .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
                     .artistPicPath(artist.getProfilePicUrl())
                     .thumbNailPath(content.getUrl())
@@ -66,6 +67,44 @@ public class ProductService {
 
         return mainPageProducts;
     }
+
+    public MainPageProducts getWeeklyPopularProducts() {
+        // ToDo: optional 처리하기
+
+        LocalDateTime now = LocalDateTime.now();
+        List<MainPageProductInfo> mainPageProductInfos = new ArrayList<>();
+        List<Like> productIds = likeRepository.findTop8ByCreateAtBetweenOrderByCount(now.minusDays(7), now);
+
+        Integer cnt = 1;
+        for(Like like: productIds) {
+            Product product = like.getProduct();
+            Artist artist = artistRepository.findById(product.getArtistId()).get();
+            Content content = contentRepository
+                    .findTop1ByProductIdAndTypeOrderByContentOrderAsc(product.getId(), "image").get();
+
+            MainPageProductInfo mainPageProductInfo = MainPageProductInfo.builder()
+                    .rank(cnt)
+                    .productId(product.getId())
+                    .title(product.getTitle())
+                    .category(product.getCategory())
+                    .like(like.getCount())
+                    .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
+                    .artistPicPath(artist.getProfilePicUrl())
+                    .thumbNailPath(content.getUrl())
+                    .build();
+
+
+            mainPageProductInfos.add(mainPageProductInfo);
+            cnt++;
+
+        }
+
+        MainPageProducts mainPageProducts = new MainPageProducts(mainPageProductInfos);
+
+        return mainPageProducts;
+    }
+
+
 
     public MainPageProducts getNewProducts() {
         // ToDo: optional 처리하기
@@ -86,6 +125,7 @@ public class ProductService {
                     .title(product.getTitle())
                     .category(product.getCategory())
                     .like(like.getCount())
+                    .artistId(artist.getId())
                     .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
                     .artistPicPath(artist.getProfilePicUrl())
                     .thumbNailPath(content.getUrl())
@@ -154,6 +194,7 @@ public class ProductService {
         Like like = Like.builder()
                 .product(productRepository.findById(productId).get())
                 .count(defaultCount)
+                .createAt(LocalDateTime.now())
                 .build();
 
         likeRepository.save(like);

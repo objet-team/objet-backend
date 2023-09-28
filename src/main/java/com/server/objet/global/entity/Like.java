@@ -3,6 +3,8 @@ package com.server.objet.global.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Table(name = "like_table")
@@ -22,5 +24,8 @@ public class Like {
 
     @Column
     private Long count;
+
+    @Column(name = "create_at")
+    private LocalDateTime createAt;
 
 }

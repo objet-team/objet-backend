@@ -37,6 +37,12 @@ public class ProductController {
         return productService.getProductDetail(id);
     }
 
+    @GetMapping("/weekly")
+    @Operation(summary = "금주의 모브제", description = "토큰이 필요하지 않습니다.")
+    public MainPageProducts WeeklyPopular() {
+        return productService.getWeeklyPopularProducts();
+    }
+
     @PostMapping("/register")
     @ResponseBody
     @Operation(summary = "작품 등록하기", description = "이미지 업로드를 먼저 진행한 뒤 호출해주세요.")
