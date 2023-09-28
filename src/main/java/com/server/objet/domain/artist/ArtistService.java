@@ -66,6 +66,7 @@ public class ArtistService {
                 .comment(artist.getComment())
                 .followingNum(followingRepository.countByUserId(user.getId()))
                 .followerNum(followingRepository.countByArtistId(artist.getId()))
+                .productNum(artist.getProducts().size())
                 .build();
     }
 
