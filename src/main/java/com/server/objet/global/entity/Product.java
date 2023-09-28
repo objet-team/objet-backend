@@ -15,8 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 public class Product {
 
-    // ToDo: erd와 달라진 사항들 존재
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "p_idx")
@@ -34,11 +32,18 @@ public class Product {
     @Column(name = "category")
     private String category;
 
+    @Column(name = "like_count")
+    private Long likeCount;
+
+    @Column(name = "upload_at")
+    private LocalDateTime uploadAt;
+
     @OneToMany
     @JoinColumn(name = "p_id")
     private List<Content> contents;
 
-    @Column(name = "upload_at")
-    private LocalDateTime uploadAt;
+    @OneToMany
+    @JoinColumn(name = "product_id")
+    private List<Like> likes;
 
 }
