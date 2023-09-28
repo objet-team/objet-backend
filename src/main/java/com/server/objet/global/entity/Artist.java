@@ -27,6 +27,10 @@ public class Artist {
     private User user;
 
     @OneToMany
+    @JoinColumn(name = "follow_id")
+    private Collection<Follow> follows;
+
+    @OneToMany
     @JoinColumn(name = "a_idx")
     private Collection<Product> products;
 
@@ -39,6 +43,7 @@ public class Artist {
 
     @Enumerated(EnumType.STRING)
     private List<Category> category;
+
 
     @Builder
     public Artist(String comment, User user, List<Category> category){
