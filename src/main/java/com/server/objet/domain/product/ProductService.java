@@ -33,113 +33,25 @@ public class ProductService {
     private final UserRepository userRepository;
 
     public MainPageProducts getPopularProducts() {
-        // ToDo: optional 처리하기
+        List<Product> products = productRepository.findTop12ByOrderByLikeCount();
+        List<MainPageProductInfo> mainPageProductInfos = makeMainPageInfoByProduct(products);
 
-        List<MainPageProductInfo> mainPageProductInfos = new ArrayList<>();
-        List<Like> productIds = likeRepository.findTop20ByOrderByCountDesc();
-
-        Integer cnt = 1;
-        for(Like like: productIds) {
-            Product product = like.getProduct();
-            Artist artist = artistRepository.findById(product.getArtistId()).get();
-            Content content = contentRepository
-                    .findTop1ByProductIdAndTypeOrderByContentOrderAsc(product.getId(), "image").get();
-
-            MainPageProductInfo mainPageProductInfo = MainPageProductInfo.builder()
-                    .rank(cnt)
-                    .productId(product.getId())
-                    .title(product.getTitle())
-                    .category(product.getCategory())
-                    .like(like.getCount())
-                    .artistId(artist.getId())
-                    .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
-                    .artistPicPath(artist.getProfilePicUrl())
-                    .thumbNailPath(content.getUrl())
-                    .build();
-
-
-            mainPageProductInfos.add(mainPageProductInfo);
-            cnt++;
-
-        }
-
-        MainPageProducts mainPageProducts = new MainPageProducts(mainPageProductInfos);
-
-        return mainPageProducts;
+        return new MainPageProducts(mainPageProductInfos);
     }
 
     public MainPageProducts getWeeklyPopularProducts() {
-        // ToDo: optional 처리하기
-
         LocalDateTime now = LocalDateTime.now();
-        List<MainPageProductInfo> mainPageProductInfos = new ArrayList<>();
-        List<Like> productIds = likeRepository.findTop8ByCreateAtBetweenOrderByCount(now.minusDays(7), now);
+        List<Product> products = productRepository.findTop8ByUploadAtBetweenOrderByLikeCount(now.minusDays(7), now);
+        List<MainPageProductInfo> mainPageProductInfos = makeMainPageInfoByProduct(products);
 
-        Integer cnt = 1;
-        for(Like like: productIds) {
-            Product product = like.getProduct();
-            Artist artist = artistRepository.findById(product.getArtistId()).get();
-            Content content = contentRepository
-                    .findTop1ByProductIdAndTypeOrderByContentOrderAsc(product.getId(), "image").get();
-
-            MainPageProductInfo mainPageProductInfo = MainPageProductInfo.builder()
-                    .rank(cnt)
-                    .productId(product.getId())
-                    .title(product.getTitle())
-                    .category(product.getCategory())
-                    .like(like.getCount())
-                    .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
-                    .artistPicPath(artist.getProfilePicUrl())
-                    .thumbNailPath(content.getUrl())
-                    .build();
-
-
-            mainPageProductInfos.add(mainPageProductInfo);
-            cnt++;
-
-        }
-
-        MainPageProducts mainPageProducts = new MainPageProducts(mainPageProductInfos);
-
-        return mainPageProducts;
+        return new MainPageProducts(mainPageProductInfos);
     }
 
-
-
     public MainPageProducts getNewProducts() {
-        // ToDo: optional 처리하기
-
-        List<MainPageProductInfo> mainPageProductInfos = new ArrayList<>();
         List<Product> products = productRepository.findTop12ByOrderByUploadAtDesc();
+        List<MainPageProductInfo> mainPageProductInfos = makeMainPageInfoByProduct(products);
 
-        Integer cnt = 1;
-        for(Product product: products) {
-            Like like = likeRepository.findByProduct(product).get();
-            Artist artist = artistRepository.findById(product.getArtistId()).get();
-            Content content = contentRepository
-                    .findTop1ByProductIdAndTypeOrderByContentOrderAsc(product.getId(), "image").get();
-
-            MainPageProductInfo mainPageProductInfo = MainPageProductInfo.builder()
-                    .rank(cnt)
-                    .productId(product.getId())
-                    .title(product.getTitle())
-                    .category(product.getCategory())
-                    .like(like.getCount())
-                    .artistId(artist.getId())
-                    .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
-                    .artistPicPath(artist.getProfilePicUrl())
-                    .thumbNailPath(content.getUrl())
-                    .build();
-
-
-            mainPageProductInfos.add(mainPageProductInfo);
-            cnt++;
-
-        }
-
-        MainPageProducts mainPageProducts = new MainPageProducts(mainPageProductInfos);
-
-        return mainPageProducts;
+        return new MainPageProducts(mainPageProductInfos);
 
     }
 
@@ -148,7 +60,6 @@ public class ProductService {
         // ToDo: optional 처리하기
 
         Product product = productRepository.findById(id).get();
-        Like like = likeRepository.findByProduct(product).get();
         Artist artist = artistRepository.findById(product.getArtistId()).get();
         List<Content> contents = product.getContents();
 
@@ -159,7 +70,7 @@ public class ProductService {
                 .title(product.getTitle())
                 .category(product.getCategory())
                 .detail(product.getDesc())
-                .like(like.getCount())
+                .like(product.getLikeCount())
                 .artistName(artist.getUser().getName())
                 .artistInfo(artist.getComment())
                 .artistPicPath(artist.getProfilePicUrl())
@@ -173,40 +84,48 @@ public class ProductService {
         User user = userDetails.getUser();
         Long artistId = artistRepository.findByUser(user).get().getId();
 
-        Product product = Product.builder()
-                .artistId(artistId)
-                .title(productInfo.getTitle())
-                .desc(productInfo.getDescription())
-                .category(productInfo.getCategory())
-                .uploadAt(LocalDateTime.now())
-                .build();
-        productRepository.save(product);
-
-        Long productId = product.getId();
+        Long productId = makeProduct(productInfo, artistId);
 
         for (Object artistContent : productInfo.getContents()) {
             String content = artistContent.toString();
             parseContent(content, productId);
         }
 
-        Long defaultCount = (Long) 0L;
-
-        Like like = Like.builder()
-                .product(productRepository.findById(productId).get())
-                .count(defaultCount)
-                .createAt(LocalDateTime.now())
-                .build();
-
-        likeRepository.save(like);
-
         return new RegisterProductResult("Success", productId);
+    }
+
+    private List<MainPageProductInfo> makeMainPageInfoByProduct(List<Product> products) {
+        List<MainPageProductInfo> mainPageProductInfos = new ArrayList<>();
+        Integer cnt = 1;
+        for (Product product : products) {
+            Artist artist = artistRepository.findById(product.getArtistId()).get();
+            Content content = contentRepository
+                    .findTop1ByProductIdAndTypeOrderByContentOrderAsc(product.getId(), "image").get();
+
+            MainPageProductInfo mainPageProductInfo = MainPageProductInfo.builder()
+                    .rank(cnt)
+                    .productId(product.getId())
+                    .title(product.getTitle())
+                    .category(product.getCategory())
+                    .like(product.getLikeCount())
+                    .artistId(artist.getId())
+                    .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
+                    .artistPicPath(artist.getProfilePicUrl())
+                    .thumbNailPath(content.getUrl())
+                    .build();
+
+            mainPageProductInfos.add(mainPageProductInfo);
+            cnt++;
+
+        }
+        return mainPageProductInfos;
     }
 
     @Transactional
     private List<Object> makeContentsList(List<Content> contents) {
         List<Object> resultContents = new ArrayList<>();
 
-        for(Content content : contents) {
+        for (Content content : contents) {
             String type = content.getType();
             if (type.equals("image")) {
                 ImageContent imageContent = ImageContent.builder()
@@ -246,8 +165,8 @@ public class ProductService {
         String str = rawContent.substring(1, rawContent.length() - 1);
         List<String> parsing = Arrays.asList(str.split(","));
 
-        HashMap <String, String> contentMap = new HashMap<>();
-        for (String name: parsing) {
+        HashMap<String, String> contentMap = new HashMap<>();
+        for (String name : parsing) {
             String[] tokens = name.trim().split("=", 2);
             contentMap.put(tokens[0], tokens[1]);
         }
@@ -293,6 +212,22 @@ public class ProductService {
             contentRepository.save(content);
 
         }
+    }
+
+    private Long makeProduct(ProductInfo productInfo, Long artistId) {
+        Long defaultCount = (Long) 0L;
+
+        Product product = Product.builder()
+                .artistId(artistId)
+                .title(productInfo.getTitle())
+                .desc(productInfo.getDescription())
+                .category(productInfo.getCategory())
+                .likeCount(defaultCount)
+                .uploadAt(LocalDateTime.now())
+                .build();
+        productRepository.save(product);
+
+        return product.getId();
     }
 
 }
