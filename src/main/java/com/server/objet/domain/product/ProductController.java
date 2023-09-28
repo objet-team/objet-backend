@@ -2,7 +2,7 @@ package com.server.objet.domain.product;
 
 import com.server.objet.domain.auth.CustomUserDetails;
 import com.server.objet.domain.product.dto.req.ProductInfo;
-import com.server.objet.domain.product.dto.res.LikeResult;
+import com.server.objet.domain.product.dto.res.ActionResult;
 import com.server.objet.domain.product.dto.res.MainPageProducts;
 import com.server.objet.domain.product.dto.ProductDetail;
 import com.server.objet.domain.product.dto.res.RegisterProductResult;
@@ -54,15 +54,23 @@ public class ProductController {
     @PostMapping("/like/{productId}")
     @ResponseBody
     @Operation(summary = "작품 좋아요", description = "해당 유저가 작품에 좋아요를 누르지 않은 상태일 때만 사용 가능합니다.")
-    public LikeResult addLike(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable("productId") Long productId) {
+    public ActionResult addLike(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable("productId") Long productId) {
         return productService.addLike(userDetails, productId);
     }
 
     @DeleteMapping("/unlike/{productId}")
     @ResponseBody
     @Operation(summary = "작품 좋아요 취소", description = "해당 유저가 작품에 좋아요를 누른 상태일 때만 사용 가능합니다.")
-    public LikeResult unLike(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable("productId") Long productId) {
+    public ActionResult unLike(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable("productId") Long productId) {
+
         return productService.deleteLike(userDetails, productId);
+    }
+
+    @DeleteMapping("/delete/{productId}")
+    @ResponseBody
+    @Operation(summary = "작품 삭제", description = "")
+    public ActionResult delete(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable("productId") Long productId) {
+        return productService.deleteProduct(userDetails, productId);
     }
 
 }
