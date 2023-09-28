@@ -1,7 +1,7 @@
 package com.server.objet.domain.product;
 
 import com.server.objet.domain.auth.CustomUserDetails;
-import com.server.objet.domain.product.dto.res.LikeResult;
+import com.server.objet.domain.product.dto.res.ActionResult;
 import com.server.objet.global.dto.ContentData.ImageContent;
 import com.server.objet.global.dto.ContentData.SpaceContent;
 import com.server.objet.global.dto.ContentData.TextContent;
@@ -97,7 +97,7 @@ public class ProductService {
     }
 
     @Transactional
-    public LikeResult addLike(CustomUserDetails userDetails, Long productId) {
+    public ActionResult addLike(CustomUserDetails userDetails, Long productId) {
         Long userId = userDetails.getUser().getId();
         Like like = Like.builder()
                 .productId(productId)
@@ -107,11 +107,11 @@ public class ProductService {
 
         updateCurrentLikeCount(userId, productId);
 
-        return new LikeResult("좋아요 추가", "성공");
+        return new ActionResult("좋아요 추가", "성공");
     }
 
     @Transactional
-    public LikeResult deleteLike(CustomUserDetails userDetails, Long productId) {
+    public ActionResult deleteLike(CustomUserDetails userDetails, Long productId) {
         Long userId = userDetails.getUser().getId();
         Like like = likeRepository.findByUserIdAndProductId(userId, productId)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 작품에 추가한 좋아요가 없습니다."));
@@ -120,7 +120,21 @@ public class ProductService {
 
         updateCurrentLikeCount(userId, productId);
 
-        return new LikeResult("좋아요 취소", "성공");
+        return new ActionResult("좋아요 취소", "성공");
+    }
+
+    @Transactional
+    public ActionResult deleteProduct(CustomUserDetails userDetails, Long productId) {
+        User user = userDetails.getUser();
+        Artist artist = artistRepository.findByUser(user).get();
+        Product product = productRepository.findByArtistIdAndId(artist.getId(), productId)
+                .orElseThrow(() -> new UsernameNotFoundException("올바르지 않은 접근입니다."));
+
+        likeRepository.deleteByProductId(productId);
+        contentRepository.deleteByProductId(productId);
+        productRepository.delete(product);
+
+        return new ActionResult("작품 삭제", "성공");
     }
 
     @Transactional
