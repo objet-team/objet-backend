@@ -46,4 +46,7 @@ public class Product {
     @JoinColumn(name = "product_id")
     private List<Like> likes;
 
+    @OneToMany
+    @JoinColumn(name = "scrap_id")
+    private List<Scrap> scraps;
 }
