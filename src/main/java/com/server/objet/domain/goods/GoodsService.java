@@ -1,17 +1,17 @@
-package com.server.objet.domain.Goods;
+package com.server.objet.domain.goods;
 
-import com.server.objet.domain.Goods.dto.*;
+import com.server.objet.domain.goods.dto.*;
 import com.server.objet.domain.auth.CustomUserDetails;
-import com.server.objet.domain.product.dto.res.RegisterProductResult;
 import com.server.objet.global.dto.ContentData.ImageContent;
 import com.server.objet.global.dto.ContentData.SpaceContent;
 import com.server.objet.global.dto.ContentData.TextContent;
-import com.server.objet.domain.product.dto.req.ProductInfo;
 import com.server.objet.global.entity.*;
 import com.server.objet.global.enums.GoodsType;
+import com.server.objet.global.exception.UserNotFoundException;
 import com.server.objet.global.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.embedded.undertow.UndertowWebServer;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,6 +29,7 @@ public class GoodsService {
     private final ArtistRepository artistRepository;
     private final GoodsDetailRepository goodsDetailRepository;
     private final UserRepository userRepository;
+    private final CartRepository cartRepository;
 
     public MainPageGoods getPopularGoods(GoodsType goodsType) {
         List<MainPageGoodsInfo> mainPageGoodsInfos = new ArrayList<>();
@@ -108,6 +109,66 @@ public class GoodsService {
         }
 
         return new RegisterNormalGoodsResult("Success", goodsId);
+    }
+
+    public String addGoodsToCart(CustomUserDetails userDetails, CartRegisterInfo cartRegisterInfo) {
+        User user = userDetails.getUser();
+        Goods goods = goodsRepository.findById(cartRegisterInfo.getGoodsId())
+                .orElseThrow(() -> new UserNotFoundException("존재하지 않는 굿즈입니다."));
+
+        Cart cart = Cart.builder()
+                .userId(user.getId())
+                .goods(goods)
+                .cnt(cartRegisterInfo.getCount())
+                .createAt(LocalDateTime.now())
+                .build();
+
+        cartRepository.save(cart);
+
+        return "장바구니 추가 성공";
+    }
+
+    public CartItems getCartItems(CustomUserDetails userDetails) {
+        User user = userDetails.getUser();
+
+        List<CartItemInfo> cartItemInfos = new ArrayList<>();
+        Long totalPrice = 0L;
+
+        List<Cart> carts = cartRepository.findByUserId(user.getId());
+
+        for(Cart cart : carts) {
+            Goods goods = cart.getGoods();
+            Artist artist = artistRepository.findById(goods.getArtistId())
+                    .orElseThrow(() -> new UserNotFoundException("존재하지 않는 아티스트입니다."));
+
+            CartItemInfo cartItemInfo = CartItemInfo.builder()
+                    .cartId(cart.getId())
+                    .artistId(artist.getId())
+                    .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
+                    .goodsId(goods.getId())
+                    .goodsName(goods.getName())
+                    .price(goods.getPrice())
+                    .cnt(cart.getCnt())
+                    .createAt(cart.getCreateAt())
+                    .build();
+
+            totalPrice += cartItemInfo.getPrice() * cartItemInfo.getCnt();
+
+            cartItemInfos.add(cartItemInfo);
+        }
+
+        return new CartItems(totalPrice, cartItemInfos);
+    }
+
+    public String deleteIncartGoods(CustomUserDetails userDetails, Long cartId) {
+        Long userId = userDetails.getUser().getId();
+
+        Cart cart = cartRepository.findByUserIdAndId(userId, cartId)
+                .orElseThrow(() -> new UserNotFoundException("올바르지 않은 접근입니다."));
+
+        cartRepository.delete(cart);
+
+        return "장바구니 삭제 성공";
     }
 
 
