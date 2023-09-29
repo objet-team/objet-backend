@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface ContentRepository extends JpaRepository<Content, Long> {
     Optional<Content> findTop1ByProductIdAndTypeOrderByContentOrderAsc(Long productId, String type);
+    void deleteByProductId(Long productId);
 }

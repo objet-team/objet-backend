@@ -46,6 +46,10 @@ public class Product {
     @JoinColumn(name = "product_id")
     private List<Like> likes;
 
+    public void updateLikeCount(Long likeCount) {
+        this.likeCount = likeCount;
+    }
+
     @OneToMany
     @JoinColumn(name = "scrap_id")
     private List<Scrap> scraps;

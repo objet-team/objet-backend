@@ -9,5 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LikeRepository extends JpaRepository<Like, Long> {
-
+    Optional<Like> findByUserIdAndProductId(Long userId, Long productId);
+    Long countByUserIdAndProductId(Long userId, Long productId);
+    void deleteByProductId(Long productId);
 }
