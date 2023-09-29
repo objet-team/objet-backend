@@ -18,6 +18,6 @@
 	<tr><td>API Documentation</td><td>Swagger</td></tr>
 	<tr><td>Database</td><td>PostgreSQL</td></tr>
 	<tr><td>Login Open API</td><td>Kakao</td></tr>
-	<tr><td>AWS Cloud Service</td><td colspan="2">EC2, S3, CodeDeploy, RDS</td></tr>
+	<tr><td>AWS Cloud Service</td><td>EC2, S3, RDS</td></tr>
 </table>
 
