@@ -19,6 +19,8 @@ public class CartItemInfo {
     private String artistName;
     private Long goodsId;
     private String goodsName;
+    private Boolean isInclude;
+    private Long deliveryCharge;
     private Long price;
     private Integer cnt;
     private LocalDateTime createAt;

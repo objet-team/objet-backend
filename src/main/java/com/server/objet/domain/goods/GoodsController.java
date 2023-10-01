@@ -38,7 +38,8 @@ public class GoodsController {
 
     @PostMapping("/register/normal")
     @ResponseBody
-    @Operation(summary = "일반 굿즈 등록하기", description = "Category에는 NORMAL 또는 NFT를 넣어주세요.")
+    @Operation(summary = "일반 굿즈 등록하기", description = "Category에는 NORMAL 또는 NFT을, contentOrder는 1부터 차례대로 넣어주세요." +
+            "배송비 포함여부는 true/false로 표시해주시고, 미포함시에는 배송비 값을 0으로 놓아주세요.")
     public RegisterNormalGoodsResult registerGoods(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody GoodsInfo goodsInfo) {
         return goodsService.doRegisterNormalGoods(goodsInfo, userDetails);
     }

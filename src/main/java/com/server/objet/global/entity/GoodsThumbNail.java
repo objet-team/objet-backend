@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class GoodsThumbNails {
+public class GoodsThumbNail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "thumbnail_id")

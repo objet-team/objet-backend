@@ -14,9 +14,12 @@ public class GoodsDetailInfo {
     private String name;
     private String category;
     private String description;
+    private Boolean isInclude;
+    private Long deliveryCharge;
     private Long price;
     private String artistName;
     private String artistInfo;
     private String artistPicPath;
+    private List<ThumbNailInfo> thumbnails;
     private List<Object> contents;
 }

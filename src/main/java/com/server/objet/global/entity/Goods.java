@@ -2,7 +2,6 @@ package com.server.objet.global.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.joda.time.DateTime;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,6 +47,6 @@ public class Goods {
 
     @OneToMany
     @JoinColumn(name = "goods_id")
-    private List<GoodsThumbNails> thumbNails;
+    private List<GoodsThumbNail> thumbNails;
 
 }
