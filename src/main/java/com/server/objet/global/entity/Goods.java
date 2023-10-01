@@ -30,6 +30,12 @@ public class Goods {
     @Column(name = "goods_type")
     private String type;
 
+    @Column(name = "is_include_delivery_charge")
+    private Boolean isInclude;
+
+    @Column(name = "delivery_charge")
+    private Long deliveryCharge;
+
     @Column(name = "price")
     private Long price;
 
@@ -39,4 +45,9 @@ public class Goods {
     @OneToMany
     @JoinColumn(name = "goods_id")
     private List<GoodsDetail> details;
+
+    @OneToMany
+    @JoinColumn(name = "goods_id")
+    private List<GoodsThumbNails> thumbNails;
+
 }
