@@ -70,14 +70,6 @@ public class FollowService {
         User user = userRepository.findByEmail(userDetails.getEmail())
                 .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
 
-
-        //Todo 있으면 안하는 걸로
-
-//        Follow followEntity = followingRepository.findByUserIdAndArtistId(user.getId(), artistId)
-//                .orElseGet( //없으면
-//                        () -> saveFollow(userDetails, artistId)
-//                );
-
         Optional<Follow> followEntityOpt = followingRepository.findByUserIdAndArtistId(user.getId(), artistId);
 
         return followEntityOpt.isEmpty(); // empty가 true -> 테이블에 없으므로 팔로우 가능!
