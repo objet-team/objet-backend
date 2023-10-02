@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class FollowService {
@@ -62,5 +64,22 @@ public class FollowService {
         followingRepository.delete(followEntity);
 
         return "팔로우 취소";
+    }
+
+    public Boolean isFollow(CustomUserDetails userDetails, Long artistId) {
+        User user = userRepository.findByEmail(userDetails.getEmail())
+                .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
+
+
+        //Todo 있으면 안하는 걸로
+
+//        Follow followEntity = followingRepository.findByUserIdAndArtistId(user.getId(), artistId)
+//                .orElseGet( //없으면
+//                        () -> saveFollow(userDetails, artistId)
+//                );
+
+        Optional<Follow> followEntityOpt = followingRepository.findByUserIdAndArtistId(user.getId(), artistId);
+
+        return followEntityOpt.isEmpty(); // empty가 true -> 테이블에 없으므로 팔로우 가능!
     }
 }
