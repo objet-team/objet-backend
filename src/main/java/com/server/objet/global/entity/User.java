@@ -58,6 +58,11 @@ public class User implements UserDetails {
     @JoinColumn(name = "user_id")
     private Collection<Cart> carts;
 
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private Collection<Scrap> scraps;
+
+
     @Builder
     public User(String email, Role role, String name, OAuthProvider oAuthProvider) {
         this.email = email;
@@ -65,12 +70,6 @@ public class User implements UserDetails {
         this.oAuthProvider = oAuthProvider;
         this.role = role;
     }
-
-    public void update( String name, String refreshToken){
-        this.accessToken = accessToken;
-        this.refreshToken =refreshToken;
-    }
-
 
     public void update(Role role){
         this.role = role;
