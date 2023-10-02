@@ -47,6 +47,8 @@ public class OAuthService {
     public String requestAccessToken(String authorizationCode, boolean isLocal) {
         // isLocal 매개변수를 통해 로컬 또는 배포 주소를 선택합니다.
         String redirect = isLocal ? redirectUriLocal : redirectUri;
+        System.out.println(isLocal);
+        System.out.println(redirect);
 
         String tokenUri = authUrl + "/oauth/token";
 
