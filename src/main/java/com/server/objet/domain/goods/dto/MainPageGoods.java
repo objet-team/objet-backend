@@ -1,4 +1,4 @@
-package com.server.objet.domain.Goods.dto;
+package com.server.objet.domain.goods.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

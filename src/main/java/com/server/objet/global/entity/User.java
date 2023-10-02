@@ -54,6 +54,10 @@ public class User implements UserDetails {
     @JoinColumn(name = "user_id")
     private Collection<Follow> follows;
 
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private Collection<Cart> carts;
+
     @Builder
     public User(String email, Role role, String name, OAuthProvider oAuthProvider) {
         this.email = email;
