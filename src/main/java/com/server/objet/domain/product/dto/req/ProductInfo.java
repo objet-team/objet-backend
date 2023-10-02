@@ -1,6 +1,7 @@
 package com.server.objet.domain.product.dto.req;
 
 import com.server.objet.global.entity.Content;
+import com.server.objet.global.enums.Category;
 import lombok.*;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 public class ProductInfo {
 
     private String title;
-    private String category;
+    private Category category;
     private String description;
     private List<Object> contents;
 }

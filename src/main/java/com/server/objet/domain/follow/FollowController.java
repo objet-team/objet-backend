@@ -1,5 +1,6 @@
 package com.server.objet.domain.follow;
 
+import com.server.objet.domain.artist.dto.ArtistInfoResponseDto;
 import com.server.objet.domain.auth.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,12 @@ public class FollowController {
             @PathVariable Long artistId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(followService.unFollow(userDetails,artistId));
+    }
+
+    @GetMapping("/availability/{artistId}") //남의 계정
+    @Operation(summary = "팔로우 여부", description = "토큰이 필요합니다. 반환값 true일 시 현재 팔로우 하고 있지 않음 (=팔로우 가능)")
+    public ResponseEntity<Boolean> isFollow(@PathVariable Long artistId,
+                                            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(followService.isFollow(userDetails,artistId));
     }
 }

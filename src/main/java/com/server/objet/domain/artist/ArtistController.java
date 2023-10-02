@@ -51,4 +51,5 @@ public class ArtistController {
                                                               @AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(artistService.changeMyInfo(artistInfoChangeRequest, userDetails));
     }
+
 }

@@ -6,6 +6,7 @@ public class RequestURI {
     public static final String AUTH_URI = CURRENT_VER + "/auth";
     public static final String ARTIST_URI = CURRENT_VER + "/artist";
     public static final String USER_URI = CURRENT_VER + "/users";
+    public static final String SCRAP_URI = CURRENT_VER + "/scrap";
     public static final String FOLLOW_URI = CURRENT_VER + "/follow";
     public static final String IMAGE_URI = CURRENT_VER + "/image";
     public static final String PRODUCT_URI = CURRENT_VER +"/product";

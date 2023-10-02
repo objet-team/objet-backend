@@ -1,5 +1,6 @@
 package com.server.objet.global.entity;
 
+import com.server.objet.global.enums.Category;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,7 +32,7 @@ public class Product {
     private String desc;
 
     @Column(name = "category")
-    private String category;
+    private Category category;
 
     @Column(name = "like_count")
     private Long likeCount;
@@ -51,4 +52,7 @@ public class Product {
         this.likeCount = likeCount;
     }
 
+    @OneToMany
+    @JoinColumn(name = "product_id")
+    private List<Scrap> scraps;
 }
