@@ -68,6 +68,7 @@ public class ProductService {
         List<Object> resultContents = makeContentsList(contents);
 
         ProductDetail productDetail = ProductDetail.builder()
+                .artistId(artist.getId())
                 .productId(id)
                 .title(product.getTitle())
                 .category(product.getCategory())

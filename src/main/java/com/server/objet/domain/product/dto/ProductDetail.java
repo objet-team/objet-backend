@@ -11,6 +11,7 @@ import java.util.List;
 @Getter
 public class ProductDetail {
     private Long productId;
+    private Long artistId;
     private String title;
     private String category;
     private String detail;

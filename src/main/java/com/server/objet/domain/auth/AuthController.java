@@ -22,7 +22,8 @@ public class AuthController {
 
     @PostMapping("/kakao")
     @Synchronized
-    @Operation(summary = "카카오 로그인", description = "kakao authCode를 넣으면 JWT AccessToken이 나옵니다. isLocal은 true이면 로컬 주소입니다.")
+    @Operation(summary = "카카오 로그인", description = "kakao authCode를 넣으면 JWT AccessToken이 나옵니다. isLocal은 true이면 로컬 주소입니다." +
+            "https://kauth.kakao.com/oauth/authorize?client_id=c47d356d74e2a8fef49e79609d9a20c4&redirect_uri=http://localhost:3000/login/kakao&response_type=code")
     public synchronized ResponseEntity<?> loginKakao(@RequestBody KakaoLoginRequest kakaoLoginRequest) {
         return ResponseEntity.ok(authService.login(kakaoLoginRequest.getAuthorizationCode(), kakaoLoginRequest.getIsLocal()));
     }
