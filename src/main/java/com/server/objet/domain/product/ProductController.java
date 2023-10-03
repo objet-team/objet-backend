@@ -46,7 +46,8 @@ public class ProductController {
 
     @PostMapping("/register")
     @ResponseBody
-    @Operation(summary = "작품 등록하기", description = "이미지 업로드를 먼저 진행한 뒤 호출해주세요.")
+    @Operation(summary = "작품 등록하기", description = "이미지 업로드를 먼저 진행한 뒤 호출해주세요." +
+            "카테고리 enum은 UX_UI, GRAPHIC_DESIGN, VIDEO_AND_MOTION_GRAPHICS, ILLUSTRATION, CHARACTER_DESIGN, PHOTOGRAPHY, CRAFTS, CERAMICS_AND_GLASS 입니다.")
     public RegisterProductResult registerProduct(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody ProductInfo productInfo) {
         return productService.doRegisterProduct(productInfo, userDetails);
     }

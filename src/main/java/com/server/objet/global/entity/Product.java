@@ -32,6 +32,7 @@ public class Product {
     private String desc;
 
     @Column(name = "category")
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     @Column(name = "like_count")
