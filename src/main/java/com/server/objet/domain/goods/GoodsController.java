@@ -62,4 +62,10 @@ public class GoodsController {
         return ResponseEntity.ok(goodsService.deleteIncartGoods(userDetails, cartId));
     }
 
+    @PatchMapping("/cart/recount")
+    @Operation(summary = "장바구니에 담은 굿즈 수량 변경", description = "newCount가 0인 경우에는 삭제 API를 호출해주세요.")
+    public ResponseEntity<String> cartRecount(@AuthenticationPrincipal CustomUserDetails userDetails, CartGoodsRecount cartGoodsRecount) {
+        return ResponseEntity.ok(goodsService.recountGoods(userDetails, cartGoodsRecount));
+    }
+
 }

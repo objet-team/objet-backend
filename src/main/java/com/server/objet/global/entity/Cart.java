@@ -30,4 +30,8 @@ public class Cart {
     @Column(name = "create_at")
     private LocalDateTime createAt;
 
+    public void updateCount(Integer newCount) {
+        this.cnt = newCount;
+    }
+
 }
