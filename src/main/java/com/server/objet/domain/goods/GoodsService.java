@@ -190,6 +190,17 @@ public class GoodsService {
         return "장바구니 삭제 성공";
     }
 
+    public String recountGoods(CustomUserDetails userDetails, CartGoodsRecount cartGoodsRecount) {
+        User user = userDetails.getUser();
+        Cart cart = cartRepository.findByUserIdAndId(user.getId(), cartGoodsRecount.getCartId())
+                .orElseThrow(() -> new UserNotFoundException("올바르지 않은 접근입니다."));
+
+        cart.updateCount(cartGoodsRecount.getNewCount());
+        cartRepository.save(cart);
+
+        return "장바구니 수량 변경 성공";
+    }
+
     @Transactional
     private List<ThumbNailInfo> makeGoodsThumbNailList(List<GoodsThumbNail> goodsThumbNails) {
         List<ThumbNailInfo> thumbNailInfos = new ArrayList<>();
