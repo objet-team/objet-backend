@@ -3,15 +3,19 @@ package com.server.objet.domain.follow;
 import com.server.objet.domain.auth.CustomUserDetails;
 import com.server.objet.global.entity.Artist;
 import com.server.objet.global.entity.Follow;
+import com.server.objet.global.entity.Product;
 import com.server.objet.global.entity.User;
 import com.server.objet.global.repository.ArtistRepository;
 import com.server.objet.global.repository.FollowingRepository;
+import com.server.objet.global.repository.ProductRepository;
 import com.server.objet.global.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +25,7 @@ public class FollowService {
     private final ArtistRepository artistRepository;
     private final UserRepository userRepository;
     private final FollowingRepository followingRepository;
+    private final ProductRepository productRepository;
 
 
     @Transactional
@@ -73,5 +78,35 @@ public class FollowService {
         Optional<Follow> followEntityOpt = followingRepository.findByUserIdAndArtistId(user.getId(), artistId);
 
         return followEntityOpt.isEmpty(); // empty가 true -> 테이블에 없으므로 팔로우 가능!
+    }
+
+
+    @Transactional
+    public FollowListResponseDto getFollowList(CustomUserDetails userDetails) {
+        User user = userRepository.findByEmail(userDetails.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
+
+        List<FollowItem> followItemList = new ArrayList<>();
+        List<Follow> followList = followingRepository.findByUserId(user.getId());
+
+        for (Follow follow : followList) {
+
+            Artist artist = artistRepository.findById(follow.getArtistId()).get();
+
+            FollowItem followItem = FollowItem.builder()
+                    .artistId(artist.getId())
+                    .artistName(artist.getUser().getName())
+                    .profileUrl(artist.getUser().getProfilePicUrl())
+                    .category(artist.getCategory())
+//                    .productNum(artist.getProducts().size()) //Todo 맞나?
+                    .productNum(productRepository.countByArtistId(artist.getId()))
+                    .followerNum(followingRepository.countByArtistId(artist.getId()))
+                    .build();
+
+            followItemList.add(followItem);
+        }
+
+
+        return new FollowListResponseDto(followItemList.size(), followItemList);
     }
 }
