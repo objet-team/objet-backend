@@ -76,7 +76,7 @@ public class ProductService {
                 .like(product.getLikeCount())
                 .artistName(artist.getUser().getName())
                 .artistInfo(artist.getComment())
-                .artistPicPath(artist.getProfilePicUrl())
+                .artistPicPath(artist.getUser().getProfilePicUrl())
                 .contents(resultContents)
                 .build();
 
@@ -162,7 +162,7 @@ public class ProductService {
                     .like(product.getLikeCount())
                     .artistId(artist.getId())
                     .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
-                    .artistPicPath(artist.getProfilePicUrl())
+                    .artistPicPath(artist.getUser().getProfilePicUrl())
                     .thumbNailPath(content.getUrl())
                     .build();
 

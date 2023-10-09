@@ -51,7 +51,7 @@ public class GoodsService {
                     .category(goods.getType())
                     .price(goods.getPrice())
                     .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
-                    .artistPicPath(artist.getProfilePicUrl())
+                    .artistPicPath(artist.getUser().getProfilePicUrl())
                     .thumbNailPath(goodsThumbNail.getUrl())
                     .build();
 
@@ -85,7 +85,7 @@ public class GoodsService {
                 .price(goods.getPrice())
                 .artistName(artist.getUser().getName())
                 .artistInfo(artist.getComment())
-                .artistPicPath(artist.getProfilePicUrl())
+                .artistPicPath(artist.getUser().getProfilePicUrl())
                 .thumbnails(goodsThumbNailInfos)
                 .contents(resultGoodsDetails)
                 .build();
