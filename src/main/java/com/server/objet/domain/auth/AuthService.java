@@ -79,7 +79,6 @@ public class AuthService {
 
         user.update(myInfoChangeRequestDto.getName(),myInfoChangeRequestDto.getProfilePicUrl());
 
-        //Todo 프로필 이미지 넣어야함
         return  MyInfoResponseDto.builder()
                 .name(myInfoChangeRequestDto.getName())
                 .email(user.getEmail()) //안바뀜
