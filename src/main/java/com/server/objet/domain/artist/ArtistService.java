@@ -30,7 +30,7 @@ public class ArtistService {
 
         //Todo role을 검사하는게 나을까, 아니면 아티스트 테이블에서 찾았는데 분기하는게 나을까
         if(user.getRole()!=Role.ARTIST){
-            user.update(Role.ARTIST);
+            user.updateRole(Role.ARTIST);
 
             Artist artist = Artist.builder()
                     .user(user)
@@ -62,7 +62,7 @@ public class ArtistService {
                 .name(user.getUsername())
                 .comment(artist.getComment())
                 .categoryList(artist.getCategory())
-                .profilePrcUrl(artist.getProfilePicUrl())
+                .profilePrcUrl(artist.getUser().getProfilePicUrl())
                 .productNum(artist.getProducts().size())
                 .followingNum(followingRepository.countByUserId(user.getId()))
                 .followerNum(followingRepository.countByArtistId(artist.getId()))
@@ -79,18 +79,25 @@ public class ArtistService {
                 .name(artist.getUser().getUsername())
                 .comment(artist.getComment())
                 .categoryList(artist.getCategory())
-                .profilePrcUrl(artist.getProfilePicUrl())
+                .profilePrcUrl(artist.getUser().getProfilePicUrl())
                 .build();
     }
     @Transactional
     public MyArtistInfoResponseDto changeMyInfo(ArtistInfoChangeRequest artistInfoChangeRequest, CustomUserDetails userDetails){
         Artist artist = artistRepository.findByUserId(userDetails.getUser().getId());
+        User user = userRepository.findByEmail(userDetails.getEmail())
+                .orElseThrow(() ->new UsernameNotFoundException("사용자를 찾을 수 없습니다"));
 
-        artist.update(artistInfoChangeRequest.getComment(), artistInfoChangeRequest.getCategoryList(), artistInfoChangeRequest.getProfilePicUrl());
+        //이름, 사진 -> 유저
+        //분야, 한 줄 소개 -> 아티스트
+
+        user.update(artistInfoChangeRequest.getName(), artistInfoChangeRequest.getProfilePicUrl());
+        artist.update(artistInfoChangeRequest.getComment(), artistInfoChangeRequest.getCategoryList());
+
 
         return MyArtistInfoResponseDto
                 .builder()
-                .name(userDetails.getUser().getUsername())
+                .name(artistInfoChangeRequest.getName())
                 .profilePrcUrl(artistInfoChangeRequest.getProfilePicUrl())
                 .categoryList(artistInfoChangeRequest.getCategoryList())
                 .comment(artistInfoChangeRequest.getComment())

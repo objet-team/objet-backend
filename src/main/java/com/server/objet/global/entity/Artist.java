@@ -38,8 +38,8 @@ public class Artist {
     @JoinColumn(name = "a_idx")
     private Collection<Goods> goods;
 
-    @Column(name = "pic_url")
-    private String profilePicUrl;
+//    @Column(name = "pic_url")
+//    private String profilePicUrl;
 
     @Enumerated(EnumType.STRING)
     private List<Category> category;
@@ -52,9 +52,8 @@ public class Artist {
         this.category = category;
     }
 
-    public void update(String comment, List<Category> category, String profilePicUrl){
+    public void update(String comment, List<Category> category){
         this.comment = comment;
         this.category = category;
-        this.profilePicUrl = profilePicUrl;
     }
 }

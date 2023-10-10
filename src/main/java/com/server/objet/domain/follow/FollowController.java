@@ -37,4 +37,10 @@ public class FollowController {
                                             @AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(followService.isFollow(userDetails,artistId));
     }
+
+    @GetMapping("/list") //남의 계정
+    @Operation(summary = "팔로우한 작가 목록", description = "토큰이 필요합니다.")
+    public ResponseEntity<FollowListResponseDto> FollowList(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(followService.getFollowList(userDetails));
+    }
 }

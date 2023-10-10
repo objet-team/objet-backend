@@ -13,4 +13,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findTop12ByOrderByLikeCount();
     List<Product> findTop8ByUploadAtBetweenOrderByLikeCount(LocalDateTime startUploadAt, LocalDateTime endUploadAt);
     Optional<Product> findByArtistIdAndId(Long artistId, Long Id);
+
+    int countByArtistId(Long artistId);
 }

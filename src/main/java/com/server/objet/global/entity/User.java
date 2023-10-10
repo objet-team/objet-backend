@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 @Entity
 @Getter
 @Table(name = "user_table")
@@ -32,6 +31,9 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String email;
+
+    @Column(name = "pic_url")
+    private String profilePicUrl;
 
     @Enumerated(EnumType.STRING)
     private OAuthProvider oAuthProvider;
@@ -71,8 +73,12 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public void update(Role role){
+    public void updateRole(Role role){
         this.role = role;
+    }
+
+    public void update(String name, String profilePicUrl) {
+
     }
 
     @Override
