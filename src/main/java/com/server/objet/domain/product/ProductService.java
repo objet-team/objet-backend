@@ -153,6 +153,7 @@ public class ProductService {
             Artist artist = artistRepository.findById(product.getArtistId()).get();
             Content content = contentRepository
                     .findTop1ByProductIdAndTypeOrderByContentOrderAsc(product.getId(), "image").get();
+            User user = userRepository.findById(artist.getUser().getId()).get();
 
             MainPageProductInfo mainPageProductInfo = MainPageProductInfo.builder()
                     .rank(cnt)
@@ -161,8 +162,8 @@ public class ProductService {
                     .category(product.getCategory())
                     .like(product.getLikeCount())
                     .artistId(artist.getId())
-                    .artistName(userRepository.findById(artist.getUser().getId()).get().getName())
-                    .artistPicPath(artist.getUser().getProfilePicUrl())
+                    .artistName(user.getName())
+                    .artistPicPath(user.getProfilePicUrl())
                     .thumbNailPath(content.getUrl())
                     .build();
 
